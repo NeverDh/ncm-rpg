@@ -71,11 +71,12 @@ src/
   modules/
     character/
       character.module.ts
-      character.service.ts
-      character.constants.ts
-      character.derivation.ts  # Atributos + racial → HP/Mana/Stamina (puro)
+      character.service.ts      # Domínio personagem; finalização criação (sem RN no bot)
+      character.constants.ts    # Orçamentos M1 (classe/raça), energia fixa, etc.
+      character.derivation.ts   # Secundários derivados + HP/Mana/Stamina (puro)
       class-bases.ts
-      racial-modifiers.ts
+      class-modifiers.ts        # Pacote +10 pts por classe (ADR-012)
+      racial-modifiers.ts       # +12 pts líquidos por raça (ADR-010)
 ```
 
 ## Prisma
@@ -87,6 +88,7 @@ prisma/
     20260502031139_init/migration.sql
     20260502120000_energy_vigor_attribute/migration.sql
     20260502140000_mvp_rebalance_no_per/migration.sql
+    20260502180000_creation_zero_class_racial_layers/migration.sql
     migration_lock.toml
 ```
 
@@ -100,6 +102,7 @@ prisma/
 ## Árvore plana (referência rápida)
 
 ```
+./.prettierrc
 ./AGENTS.md
 ./architecture/ARCHITECTURE.md
 ./.cursor/commands/rpg-analyst.md
@@ -118,32 +121,37 @@ prisma/
 ./docs/FLUXO_MULTI_AGENT.md
 ./docs/fluxos/m1-personagem.md
 ./docs/fluxos/mvp-personagem.md
-./handoffs/M1/
-./handoffs/M2/
-./handoffs/M3/
-./handoffs/M4/
-./handoffs/M5/
 ./docs/INTEGRACAO_TELEGRAM.md
 ./docs/MODULES.md
 ./docs/PROMPT_NOVO_CHAT.md
 ./docs/prompts/ANALYST_AGENT.md
+./docs/prompts/BOT_COPY_AGENT.md
 ./docs/prompts/DEVELOPMENT_AGENT.md
 ./docs/prompts/INICIO-SESSAO.md
 ./docs/prompts/PRODUCT_AGENT.md
-./docs/prompts/BOT_COPY_AGENT.md
 ./docs/prompts/README.md
 ./docs/prompts/TECH_LEAD_AGENT.md
+./eslint.config.mjs
 ./handoffs/README.md
-./index/PROJECT_PHASE.md
+./handoffs/M1/…
+./handoffs/M2/README.md
+./handoffs/M3/README.md
+./handoffs/M4/README.md
+./handoffs/M5/README.md
 ./index/AGENT_DESIGN_BOT_TELEGRAM.md
 ./index/AGENTS_ECOSYSTEM.md
 ./index/CODEBASE_INDEX.md
 ./index/PROJECT_INDEX.md
+./index/PROJECT_PHASE.md
 ./nest-cli.json
 ./package.json
 ./package-lock.json
 ./prisma/schema.prisma
-./prisma/migrations/...
+./prisma/migrations/20260502031139_init/migration.sql
+./prisma/migrations/20260502120000_energy_vigor_attribute/migration.sql
+./prisma/migrations/20260502140000_mvp_rebalance_no_per/migration.sql
+./prisma/migrations/20260502180000_creation_zero_class_racial_layers/migration.sql
+./prisma/migrations/migration_lock.toml
 ./README.md
 ./src/app.module.ts
 ./src/bot/bot.copy.ts
@@ -156,7 +164,13 @@ prisma/
 ./src/infra/prisma/prisma.module.ts
 ./src/infra/prisma/prisma.service.ts
 ./src/main.ts
-./src/modules/character/*.ts
+./src/modules/character/character.constants.ts
+./src/modules/character/character.derivation.ts
+./src/modules/character/character.module.ts
+./src/modules/character/character.service.ts
+./src/modules/character/class-bases.ts
+./src/modules/character/class-modifiers.ts
+./src/modules/character/racial-modifiers.ts
 ./test/app.e2e-spec.ts
 ./test/jest-e2e.json
 ./tsconfig.build.json

@@ -26,13 +26,13 @@ Ordem sugerida (o repositório é a memória; **não** depende de outro chat):
 
 1. `index/PROJECT_INDEX.md`
 2. `index/PROJECT_PHASE.md` — marco ativo (M1…M5) e **pasta** onde gravar handoffs (`handoffs/M1/`, etc.)
-3. Último arquivo na pasta do marco ativo (ordenar pelo nome; convenção em `handoffs/README.md`)
-4. `architecture/ARCHITECTURE.md` e `docs/MODULES.md`
-5. `decisions/DECISIONS.md` se a tarefa mudar stack ou limites de módulo
-6. Índice e design para agents (estado do repo e copy do bot):
-   - [`index/CODEBASE_INDEX.md`](index/CODEBASE_INDEX.md) — árvore do projeto (sem `node_modules`)
-   - [`index/AGENTS_ECOSYSTEM.md`](index/AGENTS_ECOSYSTEM.md) — mapa dos commands, prompts e fluxo multi-agent
-   - [`index/AGENT_DESIGN_BOT_TELEGRAM.md`](index/AGENT_DESIGN_BOT_TELEGRAM.md) — princípios de mensagens Telegram + persona BOT_COPY
+3. [`index/CODEBASE_INDEX.md`](index/CODEBASE_INDEX.md) — árvore do projeto (**sempre** alinhar ao disco; sem `node_modules`)
+4. Último arquivo na pasta do marco ativo (ordenar pelo nome; convenção em `handoffs/README.md`)
+5. `architecture/ARCHITECTURE.md` e `docs/MODULES.md`
+6. `decisions/DECISIONS.md` se a tarefa mudar stack ou limites de módulo
+7. Mapa multi-agent e copy do bot:
+   - [`index/AGENTS_ECOSYSTEM.md`](index/AGENTS_ECOSYSTEM.md) — commands, prompts e fluxo
+   - [`index/AGENT_DESIGN_BOT_TELEGRAM.md`](index/AGENT_DESIGN_BOT_TELEGRAM.md) — mensagens Telegram + persona BOT_COPY
 
 Se algo não existir, registre no handoff e continue com o mínimo seguro.
 

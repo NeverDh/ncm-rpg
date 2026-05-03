@@ -7,12 +7,12 @@ alwaysApply: true
 
 Tarefas neste repo (bot, domínio RPG, infra, docs de produto):
 
-1. Leia **`AGENTS.md`**, **`index/PROJECT_INDEX.md`** e **`index/PROJECT_PHASE.md`** antes de implementar ou decidir.
-2. Leia o handoff mais recente na pasta indicada em **PROJECT_PHASE** (ex.: `handoffs/M1/`; ordenar pelo nome; prefixo `YYYY-MM-DD-` — `handoffs/README.md`).
+1. Leia **`AGENTS.md`**, **`index/PROJECT_INDEX.md`**, **`index/PROJECT_PHASE.md`** e **`index/CODEBASE_INDEX.md`** (árvore do repo — **sempre**) antes de implementar ou decidir.
+2. Leia o handoff mais recente na pasta indicada em **PROJECT_PHASE** (ordenar pelo nome; prefixo `YYYY-MM-DD-` — `handoffs/README.md`).
 3. Técnicas: `architecture/ARCHITECTURE.md`, `docs/MODULES.md`; decisões: `decisions/DECISIONS.md`.
 4. Ao encerrar trabalho útil: **HANDOFF** no formato `AGENTS.md` §6 — **primeiro no chat**; **só salvar** em `handoffs/<M>/YYYY-MM-DD-slug.md` (**`<M>`** em **PROJECT_PHASE**) **depois de aprovação explícita do dono** (sem aprovação, não gravar em `handoffs/M*/`).
 
-**Índice / ecosystem / copy do bot:** `index/CODEBASE_INDEX.md`, `index/AGENTS_ECOSYSTEM.md`, `index/AGENT_DESIGN_BOT_TELEGRAM.md` (ver também `index/PROJECT_INDEX.md`).
+**Ecosystem / copy do bot:** `index/AGENTS_ECOSYSTEM.md`, `index/AGENT_DESIGN_BOT_TELEGRAM.md` (árvore: `index/CODEBASE_INDEX.md` já no passo 1).
 
 **Chat novo:** `/rpg-session` ou `/rpg-bootstrap` ou `@AGENTS.md`; agents: `/rpg-product`, `/rpg-bot-copy`, `/rpg-analyst`, `/rpg-dev`, `/rpg-tech-lead`; fluxo por marcos: **`/rpg-fluxo-mvp`** (M1→M5, nome do comando inalterado). Comandos em `.cursor/commands/`. Alternativa: `docs/prompts/`. Detalhes: `docs/COMO-USAR-AGENTS.md` (comandos + passos) e `docs/FLUXO_MULTI_AGENT.md` (diagrama, prompts, troubleshooting).
 

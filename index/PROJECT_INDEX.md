@@ -1,6 +1,6 @@
 # PROJECT_INDEX — Bot RPG Telegram (NestJS)
 
-Ponto de entrada da documentação do projeto. Atualizar quando novos módulos, decisões ou handoffs forem adicionados.
+Ponto de entrada da documentação do projeto. Atualizar quando novos módulos, decisões ou handoffs forem adicionados. **Árvore detalhada:** [CODEBASE_INDEX.md](./CODEBASE_INDEX.md).
 
 ## Índice estendido (`index/`)
 
@@ -21,18 +21,19 @@ Ponto de entrada da documentação do projeto. Atualizar quando novos módulos, 
 1. [../architecture/ARCHITECTURE.md](../architecture/ARCHITECTURE.md) — stack, pastas, princípios
 2. [../docs/MODULES.md](../docs/MODULES.md) — módulos, roadmap M1 → M5
 3. [../decisions/DECISIONS.md](../decisions/DECISIONS.md) — decisões arquiteturais registradas
-4. [./PROJECT_PHASE.md](./PROJECT_PHASE.md) — **onde gravar handoffs** (`handoffs/M1/`, …)
+4. [./PROJECT_PHASE.md](./PROJECT_PHASE.md) — **onde gravar handoffs** (pasta do marco ativo, ex. `handoffs/M2/`)
 5. Último handoff na pasta do marco ativo (ver PROJECT_PHASE; convenção: [../handoffs/README.md](../handoffs/README.md))
 
 ## Estado do repositório
 
 | Item | Status |
 |------|--------|
-| Código NestJS | Scaffold em `src/` (character + bot + prisma + health) |
-| Prisma / PostgreSQL | Schema + migração `init`; Prisma 5.x pinado |
+| Código NestJS | `src/`: `bot/` (Telegraf), `modules/character/`, `infra/prisma/`, `config/`, `health` |
+| Prisma / PostgreSQL | `schema.prisma` + **4** migrações (`init`, `energy_vigor_attribute`, `mvp_rebalance_no_per`, `creation_zero_class_racial_layers`); Prisma 5.x pinado |
 | Bot Telegraf | Polling em `BotService` (requer `BOT_TOKEN`) |
 | Docker Compose | `docker-compose.yml` (Postgres 16) |
-| M1 Feature 1 (personagem) | Fluxo classe → raça → nome → confirmar → ficha; ver `docs/fluxos/m1-personagem.md`, ADR-009 |
+| M1 (personagem) | **Concluído** (2026-05-03); histórico `handoffs/M1/`; `docs/fluxos/m1-personagem.md`, ADR-009 |
+| M2 (inventário) | **Marco ativo** — ver `docs/MODULES.md` M2 e `index/PROJECT_PHASE.md`; handoffs em `handoffs/M2/` |
 
 ## Convenções
 

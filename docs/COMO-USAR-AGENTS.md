@@ -32,7 +32,7 @@ Se **`/rpg-session`** não aparecer, use **`/rpg-bootstrap`** (mesmo efeito).
 
 | Comando | Função |
 |---------|--------|
-| **`/rpg-session`** ou **`/rpg-bootstrap`** | Carrega contexto: ler `AGENTS.md`, índice, **PROJECT_PHASE**, último handoff na pasta do marco — ideal para **chat novo**. |
+| **`/rpg-session`** ou **`/rpg-bootstrap`** | Carrega contexto: ler `AGENTS.md`, índice, **PROJECT_PHASE**, **`CODEBASE_INDEX` (sempre)**, último handoff na pasta do marco — ideal para **chat novo**. |
 | **`/rpg-product`** | UX Telegram, fluxo, copy, marco ativo (M1…M5). |
 | **`/rpg-bot-copy`** | Copy e mensagens do bot (tom, textos; não edita código). |
 | **`/rpg-analyst`** | Riscos, domínio, sustentabilidade. |
@@ -58,9 +58,10 @@ Ordem sugerida quando o agent precisar de contexto:
 
 1. [`index/PROJECT_INDEX.md`](../index/PROJECT_INDEX.md)  
 2. [`index/PROJECT_PHASE.md`](../index/PROJECT_PHASE.md) — pasta de handoffs (`handoffs/M1/`, …)  
-3. Último ficheiro nessa pasta (ordenar pelo nome)  
-4. [`architecture/ARCHITECTURE.md`](../architecture/ARCHITECTURE.md), [`docs/MODULES.md`](./MODULES.md)  
-5. [`decisions/DECISIONS.md`](../decisions/DECISIONS.md) se mudar stack ou regras de módulo  
+3. [`index/CODEBASE_INDEX.md`](../index/CODEBASE_INDEX.md) — árvore do repo (**sempre**)  
+4. Último ficheiro nessa pasta (ordenar pelo nome)  
+5. [`architecture/ARCHITECTURE.md`](../architecture/ARCHITECTURE.md), [`docs/MODULES.md`](./MODULES.md)  
+6. [`decisions/DECISIONS.md`](../decisions/DECISIONS.md) se mudar stack ou regras de módulo  
 
 ---
 
