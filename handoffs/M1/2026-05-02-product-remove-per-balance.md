@@ -8,7 +8,7 @@ Atualizar o design do MVP para remover o atributo **Percepção (PER)**, manter 
 
 ## Arquivos afetados
 - `docs/MODULES.md`
-- `docs/fluxos/mvp-personagem.md`
+- `docs/fluxos/m1-personagem.md`
 - `decisions/DECISIONS.md` (novo ADR substituindo parte do ADR-007)
 - (implementação futura pelo DEV) `src/modules/character/**`, `src/bot/**`, `prisma/schema.prisma` + migration
 

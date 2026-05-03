@@ -1,27 +1,53 @@
-# Fluxo pronto — MVP Feature 1 (`/rpg-fluxo-mvp`)
+# Fluxo pronto — projeto completo por marcos (`/rpg-fluxo-mvp`)
 
-Este comando foi invocado para seguir o **fluxo já definido** no repositório para a primeira feature: **criação e visualização de personagem** via Telegram (ver `AGENTS.md` §8 e `docs/MODULES.md`).
+**Nome do comando:** `/rpg-fluxo-mvp` (mantido por compatibilidade). Orquestra o **pipeline de personas** para **cada marco M1→M5** até fechamento do roadmap em `docs/MODULES.md`. O **lançamento público** do bot/jogo está previsto **após M1…M5 concluídos** — ver `index/PROJECT_PHASE.md`.
 
-## Contexto
+## Contexto obrigatório
 
-Leia: `AGENTS.md`, `index/PROJECT_INDEX.md`, último `handoffs/*.md`, `architecture/ARCHITECTURE.md`, `docs/MODULES.md`.
+1. `AGENTS.md`, `index/PROJECT_INDEX.md`, **`index/PROJECT_PHASE.md`** (pasta de handoffs do marco ativo).
+2. **Último** ficheiro em `handoffs/<MARCO_ATIVO>/` (ordenar pelo nome; ex.: `handoffs/M1/*.md`).
+3. `architecture/ARCHITECTURE.md`, `docs/MODULES.md`, `decisions/DECISIONS.md` se houver mudança estrutural.
 
 ## Como interpretar o pedido do usuário
 
-- Se o usuário pedir **só uma fase** (ex.: “só wireframe”, “só Prisma”, “só bot”): execute **apenas** essa fase no papel indicado abaixo.
-- Se pedir **fluxo completo** ou não especificar: execute a sequência **na ordem**, numa única resposta bem seccionada **ou** diga qual fase fará agora e o que falta (se o volume for excessivo).
+- **“Só Mx”** ou **“só inventário”** / **“só M2”**: execute o bloco **desse marco** (PRODUCT → BOT_COPY → ANALYST → TECH_LEAD cond. → DEV) sem repetir M1–M5 inteiros.
+- **“Fluxo completo”** ou sem especificar: percorra **M1 a M5** em ordem; cada marco numa secção clara; se o volume for excessivo, faça M1 agora e liste o que falta.
+- **“Só wireframe” / “só copy” / “só bot”** dentro de um M: mapeie para PRODUCT, BOT_COPY ou DEV conforme `AGENTS.md` §5.
 
-## Sequência do fluxo pronto
+## Sequência por marco (repetir o padrão em cada M)
 
-1. **PRODUCT (explícito)** — Documentar ou atualizar o fluxo conversacional (mensagens, teclados, estados, confirmação, menu do personagem). Saída pode ir para `docs/` (ex.: novo arquivo `docs/fluxos/mvp-personagem.md`) se ainda não existir specs claras; não inventar números de raças não fechados no charter.
-2. **ANALYST (curto)** — Riscos de acoplamento (character vs bot vs futuro inventory), ambiguidades.
-3. **TECH_LEAD (condicional)** — Só se envolver **dependências novas**, mudança de módulos ou decisão de sessão Redis/DB; caso contrário, cite “gate dispensado” em uma linha.
-4. **DEVELOPMENT** — Implementar ou continuar código alinhado a `architecture/ARCHITECTURE.md` (Nest + Prisma + Telegraf quando existir scaffold).
+Para **cada** marco abaixo, na ordem:
+
+1. **PRODUCT** — UX Telegram, estados, critérios de aceite; docs em `docs/` ou `docs/fluxos/` quando fizer sentido (M1: `docs/fluxos/m1-personagem.md`).
+2. **BOT_COPY** — tom, blurbs, labels (`index/AGENT_DESIGN_BOT_TELEGRAM.md`); entrega para DEV **sem** editar `src/`.
+3. **ANALYST** — riscos, acoplamento com módulos já existentes e futuros.
+4. **TECH_LEAD** — só se houver dependências novas, mudança de boundaries ou infra (Redis, etc.); senão uma linha: **gate dispensado**.
+5. **DEVELOPMENT** — NestJS, Prisma, Telegraf conforme `architecture/ARCHITECTURE.md`.
+
+### M1 — Personagem (Telegram)
+
+Criação e visualização: classe → raça → nome → confirmar → menu; domínio `character` + bot. Charter: `AGENTS.md` §8, detalhe de fluxo: `docs/fluxos/m1-personagem.md`.
+
+### M2 — Inventário e itens
+
+Inventário, equipamentos, itens, slots — ver `docs/MODULES.md` secção M2. Respeitar fronteira com `character` (referência por ID).
+
+### M3 — Economia
+
+Comércio, moedas, lojas — ver `docs/MODULES.md` secção M3.
+
+### M4 — Combate e aventura
+
+PvE/PvP, aventuras — ver `docs/MODULES.md` secção M4. Secundários/crit até aqui podem evoluir de “índices” para regras de combate.
+
+### M5 — Sociais e mundo
+
+Guildas, quests, mundo — ver `docs/MODULES.md` secção M5.
 
 ## Encerramento
 
-Ao final deste fluxo (ou da fase solicitada): HANDOFF no formato `AGENTS.md` §6 **no chat**; **só após aprovação explícita do dono**, arquivo em `handoffs/`. Atualize ADRs se TECH_LEAD tiver decidido algo novo. Lembrete: PRODUCT e ANALYST **não editam código** (`AGENTS.md` §7.1).
+Handoff = `AGENTS.md` §6 + `index/PROJECT_PHASE.md` + `handoffs/README.md`. Atualize ADRs se o TECH_LEAD tiver decidido algo novo. Sem código para PRODUCT/BOT_COPY/ANALYST: `AGENTS.md` §7.1.
 
 ## Mensagem do usuário
 
-Execute em seguida o que o usuário escreveu junto com `/rpg-fluxo-mvp` (objetivo, escopo ou “fluxo completo”).
+Execute em seguida o que o utilizador escreveu junto com `/rpg-fluxo-mvp` (objetivo, “fluxo completo”, “só M2”, etc.).

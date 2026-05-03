@@ -11,7 +11,7 @@ Inverter a ordem do fluxo de criação da M1 para **classe → raça → nome �
 - `src/bot/bot.service.ts` — `wizard:create` com `classKeyboard`; handlers `class:*` / `race:*` e `replyForStep` alinhados à nova ordem
 - `src/bot/bot.copy.ts` — passos 1/4 e 2/4; `WIZARD_CLASS_NEXT` (substitui CTA antiga pós-raça)
 - `docs/MODULES.md` — ordem dos passos no MVP
-- `docs/fluxos/mvp-personagem.md` — passos 2 e 3 do fluxo conversacional
+- `docs/fluxos/m1-personagem.md` — passos 2 e 3 do fluxo conversacional
 - `AGENTS.md` — charter §8 (ordem classe → raça)
 - `index/PROJECT_INDEX.md`, `index/AGENT_DESIGN_BOT_TELEGRAM.md` — referência ao fluxo
 - `decisions/DECISIONS.md` — ADR-009: texto do fluxo do jogador `CLASS → RACE → NAME → CONFIRM`

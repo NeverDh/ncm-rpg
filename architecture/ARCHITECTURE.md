@@ -20,7 +20,7 @@ Arquitetura: **monólito modular**, com limites claros para eventual separação
 2. UX Telegram (menus, botões, estados conversacionais)
 3. Fluxo conversacional desenhado **antes** de implementar backend pesado
 4. Modularização por feature
-5. Evolução MVP → M5 sem reescrita desnecessária
+5. Evolução M1 → M5 sem reescrita desnecessária
 
 ## Padrões de código
 
@@ -47,9 +47,9 @@ Arquitetura: **monólito modular**, com limites claros para eventual separação
 ## Dados e migrações
 
 - Prisma como fonte de verdade do schema (**pin Prisma 5.x** neste repo — ver `decisions/DECISIONS.md` ADR-006)
-- Migrações versionadas em `prisma/migrations/`; seeds opcionais para classes/raças estáticas do MVP
+- Migrações versionadas em `prisma/migrations/`; seeds opcionais para classes/raças estáticas de **M1**
 - Estado do wizard de criação: colunas em `characters` (`creationStep`, `attributePointsRemaining`), não Redis
-- Recursos na ficha: `hp`, `mana`, `stamina`, `energy` (**Energia**, 20 fixo no MVP na finalização); seis atributos incl. **Vigor** em `vigor_attribute` (ver ADR-007 / **ADR-009**)
+- Recursos na ficha: `hp`, `mana`, `stamina`, `energy` (**Energia**, 20 fixo em **M1** na finalização); seis atributos incl. **Vigor** em `vigor_attribute` (ver ADR-007 / **ADR-009**)
 
 ## Segurança e governança
 

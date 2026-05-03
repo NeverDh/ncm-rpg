@@ -11,10 +11,10 @@ Se usar cópia manual: anexe `@AGENTS.md`.
 | Arquivo | Uso |
 |---------|-----|
 | [INICIO-SESSAO.md](./INICIO-SESSAO.md) | Prefixo comum + leitura obrigatória |
-| [PRODUCT_AGENT.md](./PRODUCT_AGENT.md) | UX, fluxo Telegram, MVP produto |
+| [PRODUCT_AGENT.md](./PRODUCT_AGENT.md) | UX, fluxo Telegram, marcos M1…M5 |
 | [BOT_COPY_AGENT.md](./BOT_COPY_AGENT.md) | Copy e mensagens do bot (`/rpg-bot-copy`) |
 | [ANALYST_AGENT.md](./ANALYST_AGENT.md) | Riscos, domínio, sustentabilidade |
 | [DEVELOPMENT_AGENT.md](./DEVELOPMENT_AGENT.md) | NestJS, Prisma, Telegraf, testes |
 | [TECH_LEAD_AGENT.md](./TECH_LEAD_AGENT.md) | Gate arquitetural, ADRs |
 
-Guia passo a passo: [../FLUXO_MULTI_AGENT.md](../FLUXO_MULTI_AGENT.md).
+Passo a passo (comandos): [../COMO-USAR-AGENTS.md](../COMO-USAR-AGENTS.md) · diagrama e troubleshooting: [../FLUXO_MULTI_AGENT.md](../FLUXO_MULTI_AGENT.md).

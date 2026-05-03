@@ -43,7 +43,7 @@ Se aparecer **`BOT_TOKEN ausente`**, o Nest não leu o `.env` (caminho errado ou
 
 ## 4. Testar no Telegram
 
-1. Abra uma conversa **privada** com o seu bot (recomendado no MVP — criação de personagem usa mensagem de texto para o nome).
+1. Abra uma conversa **privada** com o seu bot (recomendado em **M1** — criação de personagem usa mensagem de texto para o nome).
 2. Envie **`/start`**.
 3. Use **Criar personagem** e complete o fluxo; depois **`/personagem`** para ver a ficha.
 
@@ -54,7 +54,7 @@ Se aparecer **`BOT_TOKEN ausente`**, o Nest não leu o `.env` (caminho errado ou
 | Bot não responde | Confirme token no `.env`; reinicie `npm run start:dev`; veja firewall/VPN bloqueando Telegram. |
 | Erro de Prisma / DB | `docker compose ps`; Postgres na porta 5432; `DATABASE_URL` igual ao usuário/senha do compose. |
 | `409 Conflict` / bot estranho | Outro processo usando o mesmo token — pare outra instância ou outro `npm run start:dev`. |
-| Callback dos botões não faz nada | Use chat privado; em grupos o MVP não foi validado. |
+| Callback dos botões não faz nada | Use chat privado; em grupos M1 não foi validado. |
 | Log `ETIMEDOUT` / `answerCallbackQuery` / `api.telegram.org` | Sua máquina não alcançou a API do Telegram (rede, firewall, VPN, DNS). Teste: `curl -I https://api.telegram.org`. O Nest pode reiniciar (`InstanceLoader` no log) por **watch mode** ou Ctrl+C — isso **não** é o bug; o bug é a rede até o Telegram. |
 
 ## Webhook (futuro)

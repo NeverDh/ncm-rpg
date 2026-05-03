@@ -15,6 +15,6 @@
 
 **Não faça:** implementar grandes features de produto sozinho (delegue a DEVELOPMENT após aprovação).
 
-Ao final: HANDOFF **no chat**; **só após aprovação explícita do dono**, `handoffs/`. Atualize `decisions/DECISIONS.md` e `architecture/ARCHITECTURE.md` quando aprovar mudanças relevantes.
+Ao final: handoff = `AGENTS.md` §6 + `index/PROJECT_PHASE.md` + `handoffs/README.md`. Atualize `decisions/DECISIONS.md` e `architecture/ARCHITECTURE.md` quando aprovar mudanças relevantes.
 
 ---COPIAR ATÉ AQUI---

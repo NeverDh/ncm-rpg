@@ -7,7 +7,7 @@ Monólito modular NestJS, preparado para futura extração de serviços.
 ```
 src/
   modules/
-    character/      # MVP — criação, visualização, menu
+    character/      # M1 — criação, visualização, menu
     inventory/      # M2
     combat/         # M4
     economy/        # M3
@@ -25,7 +25,7 @@ Pastas de apoio: `docs/`, `tests/` (conforme charter do projeto).
 
 ---
 
-## MVP — Feature 1: Personagem
+## M1 — Feature 1: Personagem
 
 **Objetivo:** criação e visualização de personagem via fluxo conversacional Telegram.
 
@@ -38,9 +38,9 @@ Pastas de apoio: `docs/`, `tests/` (conforme charter do projeto).
 5. Confirmar resumo (atributos finais, recursos e secundários derivados)
 6. Menu do personagem
 
-**Menu do personagem (exibir):** nome, classe, raça, nível, HP, mana, stamina, **Energia** (20 no MVP), os **6 atributos** primários (incl. Vigor), **11 atributos secundários** derivados (ver secção abaixo + ADR-011), nota curta sobre progressão (pontos no level up só nos primários), skills (estrutura), equipamentos (placeholder).
+**Menu do personagem (exibir):** nome, classe, raça, nível, HP, mana, stamina, **Energia** (20 fixo em M1), os **6 atributos** primários (incl. Vigor), **11 atributos secundários** derivados (ver secção abaixo + ADR-011), nota curta sobre progressão (pontos no level up só nos primários), skills (estrutura), equipamentos (placeholder).
 
-**Fora do escopo MVP:** combate, inventário funcional completo, economia, PvE/PvP.
+**Fora do escopo de M1:** combate, inventário funcional completo, economia, PvE/PvP.
 
 ---
 
@@ -66,11 +66,11 @@ Eventos, NPCs, guildas, party, crafting, quests, mundo vivo.
 
 - Cada módulo expõe casos de uso via **services** e contratos claros; handlers Telegram apenas orquestram chamadas.
 - Dados de personagem pertencem ao domínio **character**; inventário (M2) referencia personagem por ID, sem duplicar regras de criação.
-- **Skills no MVP:** apenas modelo/placeholder e listagem; sem árvore nem combate.
+- **Skills em M1:** apenas modelo/placeholder e listagem; sem árvore nem combate.
 
 ---
 
-## Conteúdo de design fixado (MVP rebalance — `handoffs/2026-05-02-product-remove-per-balance.md`)
+## Conteúdo de design fixado (rebalance M1 — `handoffs/M1/2026-05-02-product-remove-per-balance.md`)
 
 ### Classes iniciais
 
@@ -113,10 +113,10 @@ Força, Destreza, Inteligência, Vitalidade, Resistência, **Vigor**.
 ### Status (4)
 
 HP, Mana, Stamina: parcela fixa **0** em `class-bases.ts` + fórmula sobre atributos **finais** (classe + raça), sem PER; **piso 0** (nunca negativos, mesmo com atributos negativos).  
-**Energia:** **20** fixo no MVP (`CharacterService.finalize`).
+**Energia:** **20** fixo em M1 (`CharacterService.finalize`).
 
-### Atributos secundários (11 — MVP display)
+### Atributos secundários (11 — display em M1)
 
-Não recebem pontos diretos no level up; mudam **indiretamente** quando os primários sobem e, no futuro, por **itens, buffs e encantamentos** (M2+). No MVP são **derivados em código** (`deriveSecondaryStats` em `character.derivation.ts`), **sem colunas** dedicadas no Prisma. Catálogo e fórmulas v1: ver **ADR-011** e `handoffs/2026-05-02-product-secondary-stats-derived.md`.
+Não recebem pontos diretos no level up; mudam **indiretamente** quando os primários sobem e, no futuro, por **itens, buffs e encantamentos** (M2+). Em M1 são **derivados em código** (`deriveSecondaryStats` em `character.derivation.ts`), **sem colunas** dedicadas no Prisma. Catálogo e fórmulas v1: ver **ADR-011** e `handoffs/M1/2026-05-02-product-secondary-stats-derived.md`.
 
 Ordem de exibição sugerida: Ataque físico, Poder mágico, Defesa, Defesa mágica, Chance crítica (índice), Dano crítico (índice), Precisão, Esquiva, Penetração física, Penetração mágica, Sorte (0 a partir de primários até loot/economia).

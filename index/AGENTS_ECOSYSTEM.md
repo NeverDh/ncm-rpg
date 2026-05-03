@@ -6,8 +6,9 @@ Visão do **ecossistema de agents** deste repositório: onde cada peça vive e c
 
 | Camada | Arquivo / pasta | Papel |
 |--------|-------------------|--------|
-| Personas e processo | `AGENTS.md` | PRODUCT, ANALYST, DEVELOPMENT, TECH_LEAD; handoff; charter MVP; filosofia |
+| Personas e processo | `AGENTS.md` | PRODUCT, ANALYST, DEVELOPMENT, TECH_LEAD; handoff; charter M1; filosofia |
 | Entrada doc | `index/PROJECT_INDEX.md` | Ordem de leitura e estado do repo |
+| Fase e handoffs | `index/PROJECT_PHASE.md` | Marco ativo (M1…M5), pasta `handoffs/M*/`, política de lançamento |
 | Regra Cursor | `.cursor/rules/bot-rpg-multi-agent.mdc` | Lembra AGENTS, índice, handoffs, limites (sem RN em handler, sem deps sem gate) |
 
 ## Comandos slash (Cursor Agent Chat)
@@ -22,7 +23,7 @@ Arquivos em `.cursor/commands/` viram comandos `/nome` no chat:
 | `/rpg-analyst` | ANALYST_AGENT — riscos, domínio, sustentabilidade |
 | `/rpg-dev` | DEVELOPMENT_AGENT — Nest, Prisma, bot |
 | `/rpg-tech-lead` | TECH_LEAD_AGENT — gate arquitetural, ADRs |
-| `/rpg-fluxo-mvp` | Sequência pronta Feature 1 (personagem) |
+| `/rpg-fluxo-mvp` | Fluxo pronto **M1→M5** (comando com o mesmo nome): PRODUCT → BOT_COPY → ANALYST → TECH_LEAD (cond.) → DEV **por marco** |
 
 Cada `.md` em `commands/` resume missão, referências (`AGENTS.md`, `docs/MODULES.md`) e obrigação de handoff.
 
@@ -32,37 +33,39 @@ Cada `.md` em `commands/` resume missão, referências (`AGENTS.md`, `docs/MODUL
 |---------|-------------|
 | `docs/prompts/INICIO-SESSAO.md` | Sessão / bootstrap |
 | `docs/prompts/PRODUCT_AGENT.md` | PRODUCT |
+| `docs/prompts/BOT_COPY_AGENT.md` | BOT_COPY |
 | `docs/prompts/ANALYST_AGENT.md` | ANALYST |
 | `docs/prompts/DEVELOPMENT_AGENT.md` | DEV |
 | `docs/prompts/TECH_LEAD_AGENT.md` | TECH_LEAD |
 | `docs/prompts/README.md` | Índice dos prompts |
 
-Guias longos: `docs/COMO-USAR-AGENTS.md`, `docs/FLUXO_MULTI_AGENT.md`, `docs/PROMPT_NOVO_CHAT.md`.
+Guias: **`docs/COMO-USAR-AGENTS.md`** (comandos + passos); **`docs/FLUXO_MULTI_AGENT.md`** (diagrama, prompts coláveis, troubleshooting); **`docs/PROMPT_NOVO_CHAT.md`** (colar em chat novo).
 
 ## Fluxo recomendado (features)
 
+Encadeamento típico do **`/rpg-fluxo-mvp`** (repetido para cada marco quando pedir fluxo completo). Em **tarefas avulsas**, **ANALYST** e **TECH_LEAD** são opcionais conforme risco; você pode usar só `/rpg-dev`, só `/rpg-product`, etc. (`AGENTS.md` §5).
+
 ```mermaid
 flowchart LR
-  P[PRODUCT]
-  A[ANALYST]
-  T[TECH_LEAD]
-  D[DEVELOPMENT]
-  P --> A
-  A --> T
+  P[PRODUCT] --> BC[BOT_COPY]
+  BC --> A[ANALYST]
+  A --> D[DEVELOPMENT]
+  A -.->|se preciso| T[TECH_LEAD]
   T --> D
-  D --> T
+  D -->|revisão| T
 ```
 
 - **Ideação / UX chat:** PRODUCT  
+- **Copy e tom do bot:** BOT_COPY (`/rpg-bot-copy`)  
 - **Dúvida de escopo ou risco:** ANALYST  
 - **Dependência nova ou boundary:** TECH_LEAD antes (e depois revisão)  
 - **Implementação:** DEVELOPMENT  
 
-Feature mínima personagem: charter em `AGENTS.md` §8 e `docs/MODULES.md` MVP; fluxo detalhado em `docs/fluxos/mvp-personagem.md`.
+Feature mínima personagem (M1): charter em `AGENTS.md` §8 e `docs/MODULES.md`; fluxo detalhado em `docs/fluxos/m1-personagem.md`.
 
 ## Memória entre chats
 
-1. `handoffs/` — último arquivo por data no nome (`YYYY-MM-DD-slug.md`), formato §6 de `AGENTS.md`; arquivos só devem existir **após o dono aprovar** o handoff no chat (§6 fluxo).  
+1. `handoffs/M1/` … `handoffs/M5/` — pasta ativa em **`index/PROJECT_PHASE.md`**; último ficheiro por **ordenação lexicográfica do nome** dentro dessa pasta; prefixo `YYYY-MM-DD-slug.md` (`handoffs/README.md`). Formato §6 de `AGENTS.md`; ficheiros só **após o dono aprovar** (§6).  
 2. `decisions/DECISIONS.md` — decisões que mudam stack ou módulos  
 3. Este índice e `CODEBASE_INDEX.md` — onde está o código  
 
@@ -74,6 +77,10 @@ Feature mínima personagem: charter em `AGENTS.md` §8 e `docs/MODULES.md` MVP; 
 
 - **Handlers / `BotService`:** só orquestração; regras em `CharacterService` e domínio.  
 - **Copy e labels:** `src/bot/bot.copy.ts`, `bot.labels.ts`, formatação em `bot.presenter.ts` — ver `index/AGENT_DESIGN_BOT_TELEGRAM.md` para padronizar mensagens.
+
+## Skills de projeto (Cursor)
+
+Opcional: `.cursor/skills/bot-rpg-dev/SKILL.md` — workflow de implementação (boundaries, testes, handoff). **Não** substitui comandos `/rpg-*` nem `docs/prompts/`; evita depender só de skills globais do desenvolvedor.
 
 ## Extensões futuras do ecossistema
 

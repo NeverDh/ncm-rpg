@@ -1,14 +1,14 @@
 # AGENT_DESIGN — Mensagens do bot Telegram (RPG)
 
-Documento de **design conversacional** e **persona de agente** para produzir ou revisar textos do bot, alinhado ao MVP em `docs/MODULES.md` e ao charter em `AGENTS.md` §8.
+Documento de **design conversacional** e **persona de agente** para produzir ou revisar textos do bot, alinhado ao marco ativo em `docs/MODULES.md` / `index/PROJECT_PHASE.md` e ao charter em `AGENTS.md` §8.
 
 ---
 
 ## 1. Objetivo do produto (âncora)
 
-- **MVP:** criar e **ver** personagem por conversa: iniciar → classe → raça → nome → confirmar → menu da ficha (sem etapa de distribuir pontos na criação).  
-- **Fora do escopo:** combate, inventário completo, economia; skills só estrutura.  
-- **Filosofia:** experiência do jogador, UX Telegram, fluxo conversacional claro, modularidade, evolução MVP → M5.
+- **M1:** criar e **ver** personagem por conversa: iniciar → classe → raça → nome → confirmar → menu da ficha (sem etapa de distribuir pontos na criação).  
+- **Fora do escopo de M1:** combate, inventário completo, economia; skills só estrutura.  
+- **Filosofia:** experiência do jogador, UX Telegram, fluxo conversacional claro, modularidade, evolução M1 → M5.
 
 Toda mensagem deve **reduzir fricção** nesse fluxo e **não prometer** mecânicas futuras como se já existissem.
 
@@ -29,7 +29,7 @@ Quem atua como “agente de copy” deve **propor** mudanças (trechos para cola
 
 ## 2.1 Política do dono (handoff)
 
-Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono** → só então persistir em `handoffs/` (igual aos demais agents).
+Igual aos demais agents: **`AGENTS.md` §6** + **`index/PROJECT_PHASE.md`** + **`handoffs/README.md`**.
 
 ---
 
@@ -37,7 +37,7 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 
 1. **Português (BR), segunda pessoa** onde fizer sentido (“Escolha sua raça”, “Seus pontos”).  
 2. **Fantasia leve, direta** — uma linha de flavor, depois utilidade (o que muda na ficha).  
-3. **Honestidade sobre MVP** — como `MVP_PROGRESSION_NOTE`: explicar que pontos extras vêm no level up e que Energia é fixa no MVP.  
+3. **Honestidade sobre limites de M1** — alinhar à nota de progressão no copy (ex.: constante `MVP_PROGRESSION_NOTE` em código): pontos extras no level up; Energia fixa em 20 em M1.  
 4. **Disambiguar termos confusos** — **Vigor** (atributo) vs **Energia** (status); já tratado nos blurbs de raça; manter padrão.  
 5. **Emoji com moderação** — alinhado aos botões existentes (✨ 📜 ▶ ✓); não poluir cada linha.  
 6. **Telegram** — mensagens podem ser editadas em wizard; textos devem ler bem em **blocos curtos** (várias mensagens melhor que um mural).
@@ -59,7 +59,7 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 |------|-----------|
 | **Boas-vindas / menu** | Uma frase de contexto + opções claras (botões). |
 | **Escolha (raça/classe)** | Título opcional + blurb (`bot.copy`) + teclado. |
-| **Distribuição de pontos** | (Fora da criação no MVP; reservado ao level up.) |
+| **Distribuição de pontos** | (Fora da criação em M1; reservado ao level up.) |
 | **Confirmação** | Resumo legível (atributos base → final, prévia de status) + 2 ações (confirmar / ajustar nome). |
 | **Ficha** | Cabeçalho (nome, classe, raça, nível) → blocos Atributos / Status → nota de progressão / placeholders. |
 | **Erro / bloqueio** | Motivo em linguagem jogador + próximo passo (botão ou comando). |
@@ -68,10 +68,10 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 
 ## 6. Checklist antes de aceitar novo texto
 
-- [ ] Está dentro do escopo MVP / charter?  
+- [ ] Está dentro do escopo do marco ativo / charter?  
 - [ ] Não inventa números fora de `docs/MODULES.md` e `decisions/DECISIONS.md`?  
 - [ ] Botões e callbacks continuam coerentes com `bot.presenter.ts`?  
-- [ ] Vigor (atributo) vs Energia (status, 20 no MVP) estão claros quando relevante?  
+- [ ] Vigor (atributo) vs Energia (status, 20 em M1) estão claros quando relevante?  
 - [ ] Tom consistente com blurbs existentes em `bot.copy.ts`?
 
 ---
@@ -85,7 +85,7 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 
 **Missão:** Textos do bot RPG no Telegram: tom, clareza, blurbs, rótulos, mensagens de erro, confirmações e fichas, sem mudar regras de jogo não documentadas.
 
-**Leia antes:** `AGENTS.md` §8 (charter), `docs/MODULES.md` MVP, `index/AGENT_DESIGN_BOT_TELEGRAM.md`, `src/bot/bot.copy.ts`, `bot.labels.ts`, trechos relevantes de `bot.presenter.ts`.
+**Leia antes:** `AGENTS.md` §8 (charter), `index/PROJECT_PHASE.md`, `docs/MODULES.md`, `index/AGENT_DESIGN_BOT_TELEGRAM.md`, `src/bot/bot.copy.ts`, `bot.labels.ts`, trechos relevantes de `bot.presenter.ts`.
 
 **Faça:**
 - Propor copy em PT-BR alinhada à voz e estruturas deste documento.
@@ -94,7 +94,7 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 
 **Não faça:** **editar código ou repositório em caminhos de implementação** (`src/`, Prisma, `package.json`, testes, Docker/Nest configs — ver `AGENTS.md` §7.1); alterar callbacks ou fluxo sem alinhamento PRODUCT/DEV; inventar balanceamento; colocar regra de negócio em handlers.
 
-**Ao encerrar:** handoff §6 **no chat** → **aprovação do dono** → arquivo em `handoffs/`. Se houver decisão de produto nova, alinhar com PRODUCT; strings finais vão para o DEV com checklist da seção 6.
+**Ao encerrar:** handoff = `AGENTS.md` §6 + `index/PROJECT_PHASE.md` + `handoffs/README.md`. Decisão de produto nova: alinhar com PRODUCT; strings finais para o DEV com checklist da secção 6.
 ```
 
 ---
@@ -112,6 +112,6 @@ Ao fechar trabalho: handoff §6 **no chat** → **aprovação explícita do dono
 
 ## Referências rápidas
 
-- Fluxo MVP: `docs/fluxos/mvp-personagem.md`  
+- Fluxo M1 (personagem): `docs/fluxos/m1-personagem.md`  
 - Integração Telegram: `docs/INTEGRACAO_TELEGRAM.md`  
 - Mapa de agents: `index/AGENTS_ECOSYSTEM.md`

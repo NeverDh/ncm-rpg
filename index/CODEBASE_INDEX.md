@@ -18,19 +18,21 @@
 |---------|--------|
 | `AGENTS.md` | Fonte única: personas, handoff, charter, comandos `/rpg-*` |
 | `index/PROJECT_INDEX.md` | Entrada da documentação |
+| `index/PROJECT_PHASE.md` | Marco ativo (M1…M5) e pasta de handoffs |
 | `index/CODEBASE_INDEX.md` | Este arquivo — árvore |
 | `index/AGENTS_ECOSYSTEM.md` | Mapa do ecossistema de agents |
 | `index/AGENT_DESIGN_BOT_TELEGRAM.md` | Design + persona para copy/mensagens do bot |
 | `architecture/ARCHITECTURE.md` | Stack, pastas, princípios |
-| `docs/MODULES.md` | Módulos e roadmap MVP → M5 |
+| `docs/MODULES.md` | Módulos e roadmap M1 → M5 |
 | `docs/COMO-USAR-AGENTS.md` | Passo a passo dos agents |
-| `docs/FLUXO_MULTI_AGENT.md` | Fluxo detalhado e troubleshooting |
+| `docs/FLUXO_MULTI_AGENT.md` | Diagrama, prompts coláveis, troubleshooting (complementa COMO-USAR) |
 | `docs/PROMPT_NOVO_CHAT.md` | Texto colável para novo chat |
 | `docs/INTEGRACAO_TELEGRAM.md` | Token, `.env`, troubleshooting |
-| `docs/fluxos/mvp-personagem.md` | Fluxo MVP personagem |
+| `docs/fluxos/m1-personagem.md` | Fluxo conversacional M1 (personagem) |
+| `docs/fluxos/mvp-personagem.md` | Stub que aponta para `m1-personagem.md` (links antigos) |
 | `docs/prompts/*.md` | Prompts coláveis por agent |
 | `decisions/DECISIONS.md` | ADRs / decisões |
-| `handoffs/*.md` | Handoffs por ciclo de trabalho |
+| `handoffs/M1/` … `handoffs/M5/` | Handoffs por marco; pasta ativa em `index/PROJECT_PHASE.md`; convenção em `handoffs/README.md` |
 
 ## Cursor (comandos e regras)
 
@@ -44,7 +46,8 @@
 | `.cursor/commands/rpg-analyst.md` | ANALYST_AGENT |
 | `.cursor/commands/rpg-dev.md` | DEVELOPMENT_AGENT |
 | `.cursor/commands/rpg-tech-lead.md` | TECH_LEAD_AGENT |
-| `.cursor/commands/rpg-fluxo-mvp.md` | Fluxo Feature 1 |
+| `.cursor/commands/rpg-fluxo-mvp.md` | Fluxo pronto M1→M5 (`/rpg-fluxo-mvp`) |
+| `.cursor/skills/bot-rpg-dev/SKILL.md` | Skill opcional de workflow DEV (Nest/bot/testes) |
 
 ## Código-fonte (`src/`)
 
@@ -64,7 +67,7 @@ src/
     bot.service.ts        # Telegraf, wizard, orquestração (sem regra de negócio)
     bot.presenter.ts      # Teclados, formatação de mensagens
     bot.labels.ts         # Rótulos de botões/UI
-    bot.copy.ts           # Blurbs e textos curtos (raça/classe/progressão MVP)
+    bot.copy.ts           # Blurbs e textos curtos (raça/classe/progressão M1)
   modules/
     character/
       character.module.ts
@@ -108,11 +111,18 @@ prisma/
 ./.cursor/commands/rpg-session.md
 ./.cursor/commands/rpg-tech-lead.md
 ./.cursor/rules/bot-rpg-multi-agent.mdc
+./.cursor/skills/bot-rpg-dev/SKILL.md
 ./decisions/DECISIONS.md
 ./docker-compose.yml
 ./docs/COMO-USAR-AGENTS.md
 ./docs/FLUXO_MULTI_AGENT.md
+./docs/fluxos/m1-personagem.md
 ./docs/fluxos/mvp-personagem.md
+./handoffs/M1/
+./handoffs/M2/
+./handoffs/M3/
+./handoffs/M4/
+./handoffs/M5/
 ./docs/INTEGRACAO_TELEGRAM.md
 ./docs/MODULES.md
 ./docs/PROMPT_NOVO_CHAT.md
@@ -123,7 +133,8 @@ prisma/
 ./docs/prompts/BOT_COPY_AGENT.md
 ./docs/prompts/README.md
 ./docs/prompts/TECH_LEAD_AGENT.md
-./handoffs/*.md
+./handoffs/README.md
+./index/PROJECT_PHASE.md
 ./index/AGENT_DESIGN_BOT_TELEGRAM.md
 ./index/AGENTS_ECOSYSTEM.md
 ./index/CODEBASE_INDEX.md

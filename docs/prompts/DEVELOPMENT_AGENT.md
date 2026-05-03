@@ -15,6 +15,6 @@
 
 **Não faça:** mudar arquitetura de módulos ou stack sem autorização; inventar regras de jogo não documentadas.
 
-Ao final: HANDOFF **no chat** (§6 de `AGENTS.md`); **só após aprovação explícita do dono**, arquivo em `handoffs/`. Atualize `decisions/DECISIONS.md` / `architecture/ARCHITECTURE.md` / `index/PROJECT_INDEX.md` quando houver mudança estrutural real.
+Ao final: handoff = `AGENTS.md` §6 + `index/PROJECT_PHASE.md` + `handoffs/README.md`. Atualize `decisions/DECISIONS.md` / `architecture/ARCHITECTURE.md` / `index/PROJECT_INDEX.md` quando houver mudança estrutural real.
 
 ---COPIAR ATÉ AQUI---

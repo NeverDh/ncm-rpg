@@ -11,7 +11,7 @@ Repositório estava vazio. Criada a estrutura de indexação exigida pelo proces
 - docs/MODULES.md
 - architecture/ARCHITECTURE.md
 - decisions/DECISIONS.md
-- handoffs/2026-05-01-initial-indexing.md
+- handoffs/M1/2026-05-01-initial-indexing.md
 
 ## Decisões tomadas
 - Índice mestre em `index/PROJECT_INDEX.md` com links relativos para os demais artefatos.

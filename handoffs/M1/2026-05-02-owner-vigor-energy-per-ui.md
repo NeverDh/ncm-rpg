@@ -10,7 +10,7 @@ Decisões do owner aplicadas: **Vigor = atributo** (`vigor_attribute`), **Energi
 - `prisma/schema.prisma`, `prisma/migrations/20260502120000_energy_vigor_attribute/migration.sql`
 - `src/modules/character/character.constants.ts`, `character.service.ts`, `class-bases.ts`, `racial-modifiers.ts`
 - `src/bot/bot.copy.ts`, `bot.labels.ts`, `bot.presenter.ts`, `bot.service.ts`
-- `docs/MODULES.md`, `docs/fluxos/mvp-personagem.md`, `AGENTS.md`, `architecture/ARCHITECTURE.md`, `decisions/DECISIONS.md` (ADR-007)
+- `docs/MODULES.md`, `docs/fluxos/m1-personagem.md`, `AGENTS.md`, `architecture/ARCHITECTURE.md`, `decisions/DECISIONS.md` (ADR-007)
 
 ## Decisões tomadas
 - Human: +1 em todos os 7 atributos (incl. VIG e PER).

@@ -4,14 +4,14 @@
 DEVELOPMENT_AGENT (fluxo `/rpg-fluxo-mvp`)
 
 ## Objetivo
-Início do projeto conforme MVP Feature 1: documento de fluxo `docs/fluxos/mvp-personagem.md`; scaffold NestJS na raiz; Prisma + Postgres (Docker); módulos `character` + `bot` (Telegraf); health + Swagger; migração inicial aplicada (ambiente local com Docker).
+Início do projeto conforme **M1** Feature 1: documento de fluxo `docs/fluxos/m1-personagem.md`; scaffold NestJS na raiz; Prisma + Postgres (Docker); módulos `character` + `bot` (Telegraf); health + Swagger; migração inicial aplicada (ambiente local com Docker).
 
 ## Arquivos afetados
 - `src/` — app, config, infra/prisma, modules/character, bot, health.controller
 - `prisma/schema.prisma`, `prisma/migrations/*`
 - `docker-compose.yml`, `.env.example`, `.gitignore`
 - `package.json` (deps + scripts prisma), `test/app.e2e-spec.ts`
-- `docs/fluxos/mvp-personagem.md`
+- `docs/fluxos/m1-personagem.md`
 - `decisions/DECISIONS.md` (ADR-002 aceita, ADR-006)
 - `architecture/ARCHITECTURE.md`, `index/PROJECT_INDEX.md`
 - Removidos default `app.controller` / `app.service` / spec unitário legado

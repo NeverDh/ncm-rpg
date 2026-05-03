@@ -4,7 +4,7 @@
 DEVELOPMENT_AGENT
 
 ## Objetivo
-Implementar o MVP em modo único conforme `handoffs/2026-05-02-product-remove-per-balance.md`: fluxo de criação **sem** etapa de distribuição de pontos; **PER** removido do domínio e do banco; raças/classes/números do handoff; **Energia = 20** fixa na finalização; remoção do fluxo antigo (atributos + PER).
+Implementar o MVP em modo único conforme `handoffs/M1/2026-05-02-product-remove-per-balance.md`: fluxo de criação **sem** etapa de distribuição de pontos; **PER** removido do domínio e do banco; raças/classes/números do handoff; **Energia = 20** fixa na finalização; remoção do fluxo antigo (atributos + PER).
 
 ## Arquivos afetados
 - `prisma/schema.prisma`
@@ -22,7 +22,7 @@ Implementar o MVP em modo único conforme `handoffs/2026-05-02-product-remove-pe
 - `architecture/ARCHITECTURE.md`
 - `decisions/DECISIONS.md` (ADR-009; ADR-007 com nota de supersessão parcial)
 - `docs/MODULES.md`
-- `docs/fluxos/mvp-personagem.md`
+- `docs/fluxos/m1-personagem.md`
 - `docs/PROMPT_NOVO_CHAT.md`
 - `docs/prompts/BOT_COPY_AGENT.md`
 - `index/PROJECT_INDEX.md`

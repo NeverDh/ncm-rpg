@@ -25,29 +25,29 @@ Formato sugerido por entrada:
 
 - **Status:** aceita
 - **Contexto:** Charter define monólito modular com Telegraf e Prisma.
-- **Decisão:** NestJS com módulo `character` como núcleo do MVP; `bot` como transporte Telegraf; domínio em `CharacterService`; apresentação em `bot.presenter.ts`.
+- **Decisão:** NestJS com módulo `character` como núcleo de **M1**; `bot` como transporte Telegraf; domínio em `CharacterService`; apresentação em `bot.presenter.ts`.
 - **Consequências:** Handlers só orquestram chamadas ao serviço de personagem.
 
 ### ADR-006 — Scaffold inicial (stack e sessão)
 
 - **Status:** aceita
 - **Contexto:** Início do código; Prisma 7 quebrou `datasource url` no schema neste ambiente.
-- **Decisão:** **Prisma 5.22.0** + `@prisma/client` 5.22.0; **PostgreSQL 16** via Docker Compose na porta 5432; estado conversacional em **`Character.creationStep`** (sem Redis no MVP); **Telegraf polling** quando `BOT_TOKEN` definido (HTTP sobe mesmo sem token); **NestJS 11** conforme `package.json`.
+- **Decisão:** **Prisma 5.22.0** + `@prisma/client` 5.22.0; **PostgreSQL 16** via Docker Compose na porta 5432; estado conversacional em **`Character.creationStep`** (sem Redis em **M1**); **Telegraf polling** quando `BOT_TOKEN` definido (HTTP sobe mesmo sem token); **NestJS 11** conforme `package.json`.
 - **Consequências:** Drakari/Valtherin usam bônus **provisórios** em `racial-modifiers.ts` até fechamento pelo charter; revisar em ADR futuro.
 
 ### ADR-003 — Consumo multi-agent em chat novo
 
 - **Status:** aceita
 - **Contexto:** Trabalho distribuído entre personas (PRODUCT, ANALYST, DEVELOPMENT, TECH_LEAD) sem depender de histórico de chat.
-- **Decisão:** `AGENTS.md` como fonte única; prompts em `docs/prompts/`; guia em `docs/FLUXO_MULTI_AGENT.md`; regra Cursor `.cursor/rules/bot-rpg-multi-agent.mdc` com `alwaysApply: true` lembrando leitura de `AGENTS.md`, índice e último handoff.
-- **Consequências:** Novos colaboradores usam `@AGENTS.md` + cópia de prompt; estado continua em `handoffs/` e `decisions/`. Se o repo crescer além do bot, revisar `alwaysApply` ou usar globs.
+- **Decisão:** `AGENTS.md` como fonte única; prompts em `docs/prompts/`; guias **`docs/COMO-USAR-AGENTS.md`** (tabela `/rpg-*` e checklist) e **`docs/FLUXO_MULTI_AGENT.md`** (diagrama, tabela de prompts coláveis, troubleshooting); regra Cursor `.cursor/rules/bot-rpg-multi-agent.mdc` com `alwaysApply: true` lembrando leitura de `AGENTS.md`, índice, `PROJECT_PHASE` e último handoff.
+- **Consequências:** Novos colaboradores usam `@AGENTS.md` + cópia de prompt; estado continua em `handoffs/M*/` e `decisions/`. Se o repo crescer além do bot, revisar `alwaysApply` ou usar globs.
 
 ### ADR-004 — Invocação por `/` (comandos de projeto)
 
 - **Status:** aceita (atualizado)
 - **Contexto:** Evitar copiar Markdown manualmente; `/rpg-session` não aparecia de forma confiável como Skill em algumas builds.
-- **Decisão:** Comandos em **`.cursor/commands/*.md`** (`rpg-session`, `rpg-bootstrap`, `rpg-product`, `rpg-bot-copy`, `rpg-analyst`, `rpg-dev`, `rpg-tech-lead`, `rpg-fluxo-mvp`). `rpg-bootstrap` é alias do mesmo prompt de contexto inicial que `rpg-session`. Skills em `.cursor/skills/` foram removidas para não duplicar listagem.
-- **Consequências:** Usuário digita `/rpg-dev` (etc.) e em seguida o pedido; `docs/prompts/` permanece como alternativa. Depende do Cursor indexar `.cursor/commands/` do workspace aberto.
+- **Decisão:** Comandos em **`.cursor/commands/*.md`** (`rpg-session`, `rpg-bootstrap`, `rpg-product`, `rpg-bot-copy`, `rpg-analyst`, `rpg-dev`, `rpg-tech-lead`, `rpg-fluxo-mvp`). `rpg-bootstrap` é alias do mesmo prompt de contexto inicial que `rpg-session`. **Skills em `.cursor/skills/`** (ex.: `bot-rpg-dev`) são **opcionais** e complementam o agente em tarefas de código — **não** duplicam a invocação por `/` nem o texto dos comandos; listagem operacional continua em `.cursor/commands/` e `docs/prompts/`.
+- **Consequências:** Usuário digita `/rpg-dev` (etc.) e em seguida o pedido; `docs/prompts/` permanece como alternativa. Depende do Cursor indexar `.cursor/commands/` do workspace aberto. Quem quiser workflow extra no IDE pode anexar ou confiar na skill de projeto em `.cursor/skills/bot-rpg-dev/`.
 
 ### ADR-007 — Vigor (atributo), Energia (status), PER e raciais
 
@@ -59,7 +59,7 @@ Formato sugerido por entrada:
 ### ADR-009 — MVP rebalance: 6 atributos, sem PER, sem pontos na criação, Energia 20 fixa
 
 - **Status:** aceita
-- **Contexto:** PRODUCT (`handoffs/2026-05-02-product-remove-per-balance.md`): simplificar criação, remover Percepção do domínio, eliminar etapa de distribuição inicial, rebalancear raças/classes, Energia constante para economia futura.
+- **Contexto:** PRODUCT (`handoffs/M1/2026-05-02-product-remove-per-balance.md`): simplificar criação, remover Percepção do domínio, eliminar etapa de distribuição inicial, rebalancear raças/classes, Energia constante para economia futura.
 - **Decisão:** **6 atributos** persistidos (sem `perception`); criação com base **10** + somente bônus raciais; **`attribute_points_remaining`** na criação = **0**; fluxo do jogador **`CLASS → RACE → NAME → CONFIRM`** (valores do enum `CreationStep` reutilizados; primeiro passo persistido = `CLASS`); **Energia** na finalização = **20** sempre; HP/Mana/Stamina = bases de classe em `class-bases.ts` + fórmula sobre atributos finais (sem PER, sem bônus racial a recursos); enum `CreationStep` sem `ATTRIBUTES`; raças numéricas conforme handoff / `racial-modifiers.ts`.
 - **Consequências:** Migração `20260502140000_mvp_rebalance_no_per`; personagens antigos perdem coluna PER e podem ter HP/mana/stamina desatualizados até recriação ou script de correção; level up (pontos por nível) permanece pendente de produto.
 
@@ -74,13 +74,13 @@ Formato sugerido por entrada:
 
 - **Status:** aceita
 - **Contexto:** Dono do repositório quer revisar handoffs antes de persistência e impedir que agents não-desenvolvimento alterem implementação.
-- **Decisão:** (1) Todo agent apresenta o handoff completo no chat (`AGENTS.md` §6) e **só grava** `handoffs/*.md` **após aprovação explícita** do dono. (2) **PRODUCT_AGENT**, **ANALYST_AGENT** e personas de **design/copy** (ex.: BOT_COPY) **não editam** código nem artefatos listados em `AGENTS.md` §7.1; entregam especificações e propostas de texto para **DEVELOPMENT_AGENT**.
+- **Decisão:** (1) Todo agent apresenta o handoff completo no chat (`AGENTS.md` §6) e **só grava** em `handoffs/<M>/` (marco em `index/PROJECT_PHASE.md`) **após aprovação explícita** do dono. (2) **PRODUCT_AGENT**, **ANALYST_AGENT** e personas de **design/copy** (ex.: BOT_COPY) **não editam** código nem artefatos listados em `AGENTS.md` §7.1; entregam especificações e propostas de texto para **DEVELOPMENT_AGENT**.
 - **Consequências:** `AGENTS.md`, regra Cursor, comandos `/rpg-*`, `docs/prompts/` e guias (`COMO-USAR`, `FLUXO_MULTI_AGENT`, `PROMPT_NOVO_CHAT`) atualizados para refletir o fluxo e a fronteira.
 
 ### ADR-011 — Atributos secundários derivados (MVP display)
 
 - **Status:** aceita
-- **Contexto:** `handoffs/2026-05-02-product-secondary-stats-derived.md`: 11 stats de combate/utilidade; jogador não aloca pontos neles no level up; evolução indireta via primários + futuros itens/buffs (M2+).
+- **Contexto:** `handoffs/M1/2026-05-02-product-secondary-stats-derived.md`: 11 stats de combate/utilidade; jogador não aloca pontos neles no level up; evolução indireta via primários + futuros itens/buffs (M2+).
 - **Decisão:** Secundários **não são colunas Prisma** no MVP; calculados em `deriveSecondaryStats(CoreAttrs)` sobre atributos **finais** já persistidos (pós-racial na criação; pós-level up no futuro). **Sorte** = `0` a partir de primários até economia/loot. **Crit** (`critChanceScore`, `critDamageScore`) são **índices inteiros** até o combate (M4) definir % e caps. Fórmulas v1 (inteiros, `attrs` = CoreAttrs):
   - `physicalAttack` = `strength + floor(dexterity/2)`
   - `magicalPower` = `intelligence + floor(vigorAttribute/2)`

@@ -7,7 +7,7 @@ PRODUCT_AGENT
 Revisão de consistência entre **atributos, raças, classes** (docs + código de referência) e recomendações de **UI Telegram** para equilíbrio percebido e clareza; sem fixar novos números de balanceamento (isso exige ADR / charter).
 
 ## Arquivos afetados
-- `handoffs/2026-05-02-product-balance-ui-review.md` (este arquivo)
+- `handoffs/M1/2026-05-02-product-balance-ui-review.md` (este arquivo)
 
 ## Decisões tomadas
 - **Documentação vs código:** `docs/MODULES.md` descreve Sylvari com "−1 vigor"; na implementação vigor é **recurso derivado**, e o penal aplicado é **−1 Vitalidade** (`racial-modifiers.ts`). PRODUCT recomenda **alinhar o texto do MODULES ao comportamento real** ou mudar desenho com ADR — hoje está inconsistente para quem lê só o charter.

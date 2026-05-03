@@ -18,7 +18,7 @@ Criados artefatos para consumo do fluxo multi-agent em **qualquer chat novo**, s
 - .cursor/rules/bot-rpg-multi-agent.mdc
 - index/PROJECT_INDEX.md
 - decisions/DECISIONS.md (ADR-003)
-- handoffs/2026-05-01-agents-and-onboarding.md
+- handoffs/M1/2026-05-01-agents-and-onboarding.md
 
 ## Decisões tomadas
 - Estado e processo passam a viver no repositório (AGENTS + handoffs + decisões); prompts usam marcações `---COPIAR DAQUI---` para reduzir erro de cópia.

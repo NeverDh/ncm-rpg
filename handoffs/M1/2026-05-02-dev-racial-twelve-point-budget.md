@@ -10,7 +10,7 @@ Implementar orçamento racial fixo de **12 pontos** por raça (distribuição de
 - `src/modules/character/character.constants.ts` — `RACIAL_POINT_BUDGET_MVP = 12`
 - `src/modules/character/racial-modifiers.ts` — tabela por raça (soma líquida 12) + assert por `Race`
 - `docs/MODULES.md` — tabela raciais + texto do orçamento
-- `docs/fluxos/mvp-personagem.md` — menção aos 12 pts fixos
+- `docs/fluxos/m1-personagem.md` — menção aos 12 pts fixos
 - `decisions/DECISIONS.md` — **ADR-010**
 - `docs/PROMPT_NOVO_CHAT.md` — referência ADR-010
 - `src/bot/bot.copy.ts` — blurbs, `MVP_PROGRESSION_NOTE`, `WIZARD_RACE_INTRO`

@@ -19,11 +19,11 @@ Substituído o fluxo “copiar MD” como forma principal: criados **Cursor Skil
 - index/PROJECT_INDEX.md
 - decisions/DECISIONS.md (ADR-004)
 - .cursor/rules/bot-rpg-multi-agent.mdc
-- handoffs/2026-05-01-cursor-skills-slash.md
+- handoffs/M1/2026-05-01-cursor-skills-slash.md
 
 ## Decisões tomadas
 - Skills seguem spec Cursor (`name` = pasta; `disable-model-invocation: true` para comportamento tipo comando explícito).
-- `rpg-fluxo-mvp` orquestra MVP Feature 1 com escape por pedido do usuário (“só uma fase”).
+- `rpg-fluxo-mvp` orquestra marcos **M1→M5** (com escape por pedido do usuário, ex.: “só uma fase”).
 
 ## Pendências
 - Validar na sua versão do Cursor se os skills aparecem em `/` (Settings → Rules → Skills); se não aparecer, atualizar Cursor ou usar `/migrate-to-skills` conforme docs.

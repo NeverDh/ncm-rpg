@@ -25,10 +25,11 @@ Pastas-alvo e roadmap de módulos: `docs/MODULES.md`. Princípios técnicos: `ar
 Ordem sugerida (o repositório é a memória; **não** depende de outro chat):
 
 1. `index/PROJECT_INDEX.md`
-2. Último arquivo em `handoffs/` (nome/data mais recente)
-3. `architecture/ARCHITECTURE.md` e `docs/MODULES.md`
-4. `decisions/DECISIONS.md` se a tarefa mudar stack ou limites de módulo
-5. Índice e design para agents (estado do repo e copy do bot):
+2. `index/PROJECT_PHASE.md` — marco ativo (M1…M5) e **pasta** onde gravar handoffs (`handoffs/M1/`, etc.)
+3. Último arquivo na pasta do marco ativo (ordenar pelo nome; convenção em `handoffs/README.md`)
+4. `architecture/ARCHITECTURE.md` e `docs/MODULES.md`
+5. `decisions/DECISIONS.md` se a tarefa mudar stack ou limites de módulo
+6. Índice e design para agents (estado do repo e copy do bot):
    - [`index/CODEBASE_INDEX.md`](index/CODEBASE_INDEX.md) — árvore do projeto (sem `node_modules`)
    - [`index/AGENTS_ECOSYSTEM.md`](index/AGENTS_ECOSYSTEM.md) — mapa dos commands, prompts e fluxo multi-agent
    - [`index/AGENT_DESIGN_BOT_TELEGRAM.md`](index/AGENT_DESIGN_BOT_TELEGRAM.md) — princípios de mensagens Telegram + persona BOT_COPY
@@ -43,7 +44,7 @@ Se algo não existir, registre no handoff e continue com o mínimo seguro.
 2. UX Telegram  
 3. Fluxo conversacional (desenhar antes de codar quando for feature de bot)  
 4. Modularização  
-5. Crescimento futuro (MVP → M5)
+5. Crescimento futuro (M1 → M5; lançamento público após M1–M5 — `index/PROJECT_PHASE.md`)
 
 ---
 
@@ -51,7 +52,7 @@ Se algo não existir, registre no handoff e continue com o mínimo seguro.
 
 ### PRODUCT_AGENT
 
-**Papel:** experiência do jogador, fluxo Telegram, gameplay, priorização MVP, wireframes textuais.  
+**Papel:** experiência do jogador, fluxo Telegram, gameplay, priorização por marco (M1…M5), wireframes textuais.  
 **Mentalidade:** “O que deixa o RPG divertido e intuitivo?”  
 **Entregas típicas:** fluxo mensagem a mensagem, botões/menus, estados, textos, critérios de aceite.  
 **Evitar:** complexidade prematura, regras não alinhadas ao charter.  
@@ -88,11 +89,12 @@ Persona e princípios em [`index/AGENT_DESIGN_BOT_TELEGRAM.md`](index/AGENT_DESI
 | Fase | Agente | Quando usar |
 |------|--------|-------------|
 | Ideação / UX chat | PRODUCT_AGENT | Nova feature, mudança de fluxo Telegram |
+| Copy / tom das mensagens do bot | BOT_COPY_AGENT | Após fluxo UX definido (ou charter fechado); entrega texto e alvos para DEV — ver `index/AGENT_DESIGN_BOT_TELEGRAM.md` |
 | Risco / domínio | ANALYST_AGENT | Antes de sprint grande ou decisão ambígua |
 | Implementação | DEVELOPMENT_AGENT | Após escopo e ADRs alinhados |
 | Gate arquitetural | TECH_LEAD_AGENT | Nova dependência, mudança de módulos, quebra de boundary |
 
-Fluxo mínimo para uma feature: **PRODUCT** (ou charter já fechado) → **ANALYST** (opcional mas recomendado em dúvida) → **TECH_LEAD** se impacto estrutural → **DEVELOPMENT** → **TECH_LEAD** revisão final.
+Fluxo mínimo para uma feature: **PRODUCT** (ou charter já fechado) → **BOT_COPY** quando houver texto de bot a fechar → **ANALYST** (opcional mas recomendado em dúvida) → **TECH_LEAD** se impacto estrutural → **DEVELOPMENT** → **TECH_LEAD** revisão final.
 
 ---
 
@@ -104,9 +106,9 @@ Todo agent que executar tarefa útil deve **fechar com handoff**, mas **não** p
 
 1. Escrever no chat o handoff **completo** no formato abaixo (rascunho final).
 2. **Consultar o dono do repositório** e obter **aprovação explícita** (“ok”, “aprovado”, ou ajustes pedidos e nova versão no chat).
-3. **Somente após essa aprovação:** criar ou atualizar `handoffs/YYYY-MM-DD-slug.md` (ou sequência se vários no mesmo dia).
+3. **Somente após essa aprovação:** criar ou atualizar `handoffs/<M>/YYYY-MM-DD-slug.md`, onde **`<M>`** é o marco em **`index/PROJECT_PHASE.md`** (ex.: `handoffs/M1/`). Ver `handoffs/README.md`.
 
-Sem aprovação: **não** criar nem sobrescrever arquivos em `handoffs/`.
+Sem aprovação: **não** criar nem sobrescrever ficheiros em `handoffs/M*/`.
 
 Use exatamente esta estrutura:
 
@@ -162,25 +164,25 @@ Se houver **dúvida**, **ambiguidade** ou **impacto arquitetural**: **parar e pe
 
 ---
 
-## 8. Charter resumido (MVP personagem)
+## 8. Charter resumido (M1 — personagem)
 
-**Objetivo MVP:** criação e visualização de personagem por conversa Telegram: iniciar → classe → raça → nome → confirmar → menu do personagem (sem distribuição de pontos na criação; level up depois).
+**Objetivo M1:** criação e visualização de personagem por conversa Telegram: iniciar → classe → raça → nome → confirmar → menu do personagem (sem distribuição de pontos na criação; level up depois).
 
 **Classes:** Bárbaro (FOR), Mago (INT), Assassino (DES) — ver `docs/MODULES.md` para detalhes.
 
 **Raças:** Humano, Orcano, Sylvari, Umbren, Drakari, Valtherin — bônus em `docs/MODULES.md`; onde o charter for qualitativo, não inventar números sem decisão em `decisions/DECISIONS.md`.
 
-**Atributos (6):** Força, Destreza, Inteligência, Vitalidade, Resistência, **Vigor** (atributo). **PER** fora do MVP até nova decisão.
+**Atributos (6):** Força, Destreza, Inteligência, Vitalidade, Resistência, **Vigor** (atributo). **PER** fora de M1 até nova decisão.
 
-**Status:** HP, Mana, Stamina, **Energia** = **20 fixo** no MVP; demais status derivados de classe + atributos (ver `docs/MODULES.md`, ADR-009).
+**Status:** HP, Mana, Stamina, **Energia** = **20 fixo** em M1; demais status derivados de classe + atributos (ver `docs/MODULES.md`, ADR-009).
 
-**Fora do MVP:** combate; skills apenas estrutura inicial.
+**Fora de M1:** combate; skills apenas estrutura inicial.
 
 ---
 
 ## 9. Como usar em outro chat (sem contexto prévio)
 
-Checklist linear e tabela de comandos: **`docs/COMO-USAR-AGENTS.md`**. Texto curto para colar em chat novo: **`docs/PROMPT_NOVO_CHAT.md`**.
+Checklist linear e tabela de comandos: **`docs/COMO-USAR-AGENTS.md`**. Diagrama, prompts coláveis e troubleshooting: **`docs/FLUXO_MULTI_AGENT.md`**. Texto curto para colar em chat novo: **`docs/PROMPT_NOVO_CHAT.md`**.
 
 ### Forma principal: comandos `/` no chat do Cursor
 
@@ -190,12 +192,12 @@ No **Agent Chat**, digite `/` e escolha um **comando de projeto**. Os prompts fi
 |---------|-----|
 | `/rpg-session` | Carrega contexto: `AGENTS.md`, índice, último handoff — use antes de uma tarefa grande ou em chat novo. |
 | `/rpg-bootstrap` | **Mesmo fluxo que `/rpg-session`.** Use se `/rpg-session` não aparecer na lista (algumas builds não listam esse nome). |
-| `/rpg-product` | PRODUCT_AGENT — UX Telegram, fluxo, MVP. |
+| `/rpg-product` | PRODUCT_AGENT — UX Telegram, fluxo, marco ativo (M1…M5). |
 | `/rpg-bot-copy` | BOT_COPY_AGENT — copy e mensagens do bot (tom, blurbs, labels especificados; sem editar código). |
 | `/rpg-analyst` | ANALYST_AGENT — riscos e sustentabilidade. |
 | `/rpg-dev` | DEVELOPMENT_AGENT — código NestJS / Prisma / bot. |
 | `/rpg-tech-lead` | TECH_LEAD_AGENT — gate arquitetural e ADRs. |
-| `/rpg-fluxo-mvp` | Fluxo **pronto** da Feature 1 (personagem): PRODUCT → ANALYST → TECH_LEAD se necessário → DEV (ajuste com seu texto na mesma mensagem). |
+| `/rpg-fluxo-mvp` | Fluxo **pronto** **M1→M5** (mesmo nome de comando): PRODUCT → BOT_COPY → ANALYST → TECH_LEAD se necessário → DEV **por marco**; lançamento público só após M1–M5 (`index/PROJECT_PHASE.md`). |
 
 Depois do comando, na **mesma mensagem ou na seguinte**, escreva o que você quer (ex.: “definir fluxo de confirmação antes de salvar” ou “fluxo completo até scaffold”).
 
@@ -207,7 +209,7 @@ Anexe `@AGENTS.md` e copie blocos de `docs/prompts/` se preferir colar texto man
 
 ### Handoff
 
-Ao finalizar trabalho útil: **handoff** no formato da seção **6** — primeiro no chat, **aprovação do dono**, depois arquivo em `handoffs/` (ver fluxo na §6).
+Ao finalizar trabalho útil: **handoff** no formato da seção **6** — primeiro no chat, **aprovação do dono**, depois ficheiro em `handoffs/<M>/` conforme **`index/PROJECT_PHASE.md`** (ver §6 e `handoffs/README.md`).
 
 **Agents individuais:** `/rpg-product`, `/rpg-bot-copy`, `/rpg-analyst`, etc. são independentes; a sequência da seção 5 é recomendação para features grandes, não obrigatória por mensagem.
 

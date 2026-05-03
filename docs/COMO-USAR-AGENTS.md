@@ -1,6 +1,8 @@
 # Como usar os agents e fluxos (passo a passo)
 
-Guia **único** para trabalhar com as personas (PRODUCT, ANALYST, DEV, TECH_LEAD) e o fluxo MVP no Cursor. Detalhes extras: [FLUXO_MULTI_AGENT.md](./FLUXO_MULTI_AGENT.md) e [AGENTS.md](../AGENTS.md).
+**Este ficheiro** concentra a **tabela canónica de comandos** `/rpg-*`, o **checklist linear** e a **ordem de leitura** da memória do repo. Personas, handoff e restrições: sempre **`AGENTS.md`**.
+
+**Outro guia (sem duplicar a tabela):** [FLUXO_MULTI_AGENT.md](./FLUXO_MULTI_AGENT.md) — diagrama Mermaid, **tabela de prompts** em `docs/prompts/`, exemplos de pedido e **troubleshooting** ampliado.
 
 ---
 
@@ -20,7 +22,7 @@ Guia **único** para trabalhar com as personas (PRODUCT, ANALYST, DEV, TECH_LEAD
 | 1 | Digite **`/`** no Agent Chat e procure comandos que começam com **`rpg-`**. |
 | 2 | Escolha **um** comando (veja tabela abaixo). |
 | 3 | Na **mesma mensagem** ou na **seguinte**, escreva em português o que você quer. |
-| 4 | Ao terminar trabalho útil: **HANDOFF** na §6 de `AGENTS.md` **no chat** → dono **aprova** → só então arquivo em `handoffs/YYYY-MM-DD-assunto.md`. |
+| 4 | Ao terminar trabalho útil: **HANDOFF** na §6 de `AGENTS.md` **no chat** → dono **aprova** → só então ficheiro em `handoffs/<M>/YYYY-MM-DD-assunto.md` (`index/PROJECT_PHASE.md`). |
 
 Se **`/rpg-session`** não aparecer, use **`/rpg-bootstrap`** (mesmo efeito).
 
@@ -30,13 +32,13 @@ Se **`/rpg-session`** não aparecer, use **`/rpg-bootstrap`** (mesmo efeito).
 
 | Comando | Função |
 |---------|--------|
-| **`/rpg-session`** ou **`/rpg-bootstrap`** | Carrega contexto: ler `AGENTS.md`, índice, último handoff — ideal para **chat novo**. |
-| **`/rpg-product`** | UX Telegram, fluxo, copy, MVP produto. |
+| **`/rpg-session`** ou **`/rpg-bootstrap`** | Carrega contexto: ler `AGENTS.md`, índice, **PROJECT_PHASE**, último handoff na pasta do marco — ideal para **chat novo**. |
+| **`/rpg-product`** | UX Telegram, fluxo, copy, marco ativo (M1…M5). |
 | **`/rpg-bot-copy`** | Copy e mensagens do bot (tom, textos; não edita código). |
 | **`/rpg-analyst`** | Riscos, domínio, sustentabilidade. |
 | **`/rpg-dev`** | Código NestJS, Prisma, bot. |
 | **`/rpg-tech-lead`** | Gate arquitetural, ADRs. |
-| **`/rpg-fluxo-mvp`** | Fluxo **pronto** da Feature 1 (personagem): PRODUCT → ANALYST → TECH_LEAD (se preciso) → DEV — você complementa com “fluxo completo” ou escopo parcial. |
+| **`/rpg-fluxo-mvp`** | Fluxo **pronto M1→M5** (nome do comando inalterado): mesmo pipeline por marco; lançamento público só após M1–M5 — ver `.cursor/commands/rpg-fluxo-mvp.md` e `index/PROJECT_PHASE.md`. |
 
 ---
 
@@ -55,9 +57,10 @@ Se **`/rpg-session`** não aparecer, use **`/rpg-bootstrap`** (mesmo efeito).
 Ordem sugerida quando o agent precisar de contexto:
 
 1. [`index/PROJECT_INDEX.md`](../index/PROJECT_INDEX.md)  
-2. Último arquivo em [`handoffs/`](../handoffs/) (por data no nome)  
-3. [`architecture/ARCHITECTURE.md`](../architecture/ARCHITECTURE.md), [`docs/MODULES.md`](./MODULES.md)  
-4. [`decisions/DECISIONS.md`](../decisions/DECISIONS.md) se mudar stack ou regras de módulo  
+2. [`index/PROJECT_PHASE.md`](../index/PROJECT_PHASE.md) — pasta de handoffs (`handoffs/M1/`, …)  
+3. Último ficheiro nessa pasta (ordenar pelo nome)  
+4. [`architecture/ARCHITECTURE.md`](../architecture/ARCHITECTURE.md), [`docs/MODULES.md`](./MODULES.md)  
+5. [`decisions/DECISIONS.md`](../decisions/DECISIONS.md) se mudar stack ou regras de módulo  
 
 ---
 

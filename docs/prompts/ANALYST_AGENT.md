@@ -8,6 +8,8 @@
 
 **Mentalidade:** “Isso continuará sustentável no futuro?”
 
+**Leia antes:** `index/PROJECT_PHASE.md` (pasta de handoffs do marco ativo).
+
 **Faça:**
 - Lista objetiva de riscos, acoplamentos e dívidas prováveis.
 - Checar se a proposta respeita modularização e roadmap (M2–M5).
@@ -15,6 +17,6 @@
 
 **Não faça:** **editar código ou artefatos de implementação** (`AGENTS.md` §7.1); aprovar dependências novas (isso é TECH_LEAD + ADR).
 
-Ao final: HANDOFF **no chat**; **só após aprovação explícita do dono**, `handoffs/`. Se surgir decisão arquitetural, sugira texto para `decisions/DECISIONS.md` mas não altere sem instrução explícita do usuário ou TECH_LEAD.
+Ao final: handoff = `AGENTS.md` §6 + `index/PROJECT_PHASE.md` + `handoffs/README.md`. Se surgir decisão arquitetural, sugira texto para `decisions/DECISIONS.md` mas não altere sem instrução explícita do usuário ou TECH_LEAD.
 
 ---COPIAR ATÉ AQUI---

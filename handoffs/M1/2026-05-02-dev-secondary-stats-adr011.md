@@ -4,7 +4,7 @@
 DEVELOPMENT_AGENT (+ síntese ANALYST / TECH_LEAD / BOT_COPY no mesmo ciclo)
 
 ## Objetivo
-Implementar **atributos secundários** alinhados a `handoffs/2026-05-02-product-secondary-stats-derived.md`: 11 stats derivados dos 6 primários, sem persistência Prisma no MVP; exibição na **confirmação** e na **ficha**; **ADR-011** com fórmulas v1; `docs/MODULES.md` e fluxo atualizados.
+Implementar **atributos secundários** alinhados a `handoffs/M1/2026-05-02-product-secondary-stats-derived.md`: 11 stats derivados dos 6 primários, sem persistência Prisma no MVP; exibição na **confirmação** e na **ficha**; **ADR-011** com fórmulas v1; `docs/MODULES.md` e fluxo atualizados.
 
 ## Arquivos afetados
 - `src/modules/character/character.derivation.ts` — `SecondaryStats`, `SECONDARY_STAT_ORDER`, `deriveSecondaryStats`
@@ -14,7 +14,7 @@ Implementar **atributos secundários** alinhados a `handoffs/2026-05-02-product-
 - `decisions/DECISIONS.md` — **ADR-011**
 - `docs/MODULES.md` — secção secundários + menu
 - `docs/PROMPT_NOVO_CHAT.md` — menção ADR-011
-- `docs/fluxos/mvp-personagem.md` — passo confirmar + menu ficha
+- `docs/fluxos/m1-personagem.md` — passo confirmar + menu ficha
 
 ## Decisões tomadas (TECH_LEAD)
 - **Sem migração Prisma:** secundários = função pura sobre `CoreAttrs` (atributos já persistidos).
