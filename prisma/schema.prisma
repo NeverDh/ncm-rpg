@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Race {
+  HUMAN
+  ORCANO
+  SYLVARI
+  UMBREN
+  DRAKARI
+  VALTHERIN
+}
+
+enum CharacterClass {
+  BARBARIAN
+  MAGE
+  ASSASSIN
+}
+
+enum CreationStep {
+  START
+  RACE
+  CLASS
+  NAME
+  CONFIRM
+  DONE
+}
+
+model TelegramAccount {
+  id             String      @id @default(uuid())
+  telegramUserId BigInt      @unique @map("telegram_user_id")
+  username       String?
+  createdAt      DateTime    @default(now()) @map("created_at")
+  characters     Character[]
+
+  @@map("telegram_accounts")
+}
+
+model Character {
+  id        String @id @default(uuid())
+  accountId String @map("telegram_account_id")
+  account   TelegramAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  name             String?
+  race             Race?
+  characterClass   CharacterClass? @map("character_class")
+  strength         Int             @default(0)
+  dexterity        Int             @default(0)
+  intelligence     Int             @default(0)
+  vitality         Int             @default(0)
+  resilience       Int             @default(0)
+  vigorAttribute   Int             @default(0) @map("vigor_attribute")
+  attributePointsRemaining Int     @default(0) @map("attribute_points_remaining")
+
+  hp      Int @default(0)
+  mana    Int @default(0)
+  stamina Int @default(0)
+  energy  Int @default(0) @map("energy")
+  level   Int @default(1)
+
+  creationStep CreationStep @default(START) @map("creation_step")
+  isComplete   Boolean      @default(false) @map("is_complete")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([accountId, isComplete])
+  @@map("characters")
+}

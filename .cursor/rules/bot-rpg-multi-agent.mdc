@@ -1,0 +1,21 @@
+---
+description: Bot RPG Telegram — multi-agent, leitura obrigatória e handoffs
+alwaysApply: true
+---
+
+# Bot RPG Telegram (NestJS)
+
+Tarefas neste repo (bot, domínio RPG, infra, docs de produto):
+
+1. Leia **`AGENTS.md`** e **`index/PROJECT_INDEX.md`** antes de implementar ou decidir.
+2. Leia o **`handoffs/`** mais recente (nome com data).
+3. Técnicas: `architecture/ARCHITECTURE.md`, `docs/MODULES.md`; decisões: `decisions/DECISIONS.md`.
+4. Ao encerrar trabalho útil: **HANDOFF** no formato `AGENTS.md` §6 — **primeiro no chat**; **só salvar** `handoffs/YYYY-MM-DD-slug.md` **depois de aprovação explícita do dono do repositório** (sem aprovação, não gravar `handoffs/`).
+
+**Índice / ecosystem / copy do bot:** `index/CODEBASE_INDEX.md`, `index/AGENTS_ECOSYSTEM.md`, `index/AGENT_DESIGN_BOT_TELEGRAM.md` (ver também `index/PROJECT_INDEX.md`).
+
+**Chat novo:** `/rpg-session` ou `/rpg-bootstrap` ou `@AGENTS.md`; agents: `/rpg-product`, `/rpg-bot-copy`, `/rpg-analyst`, `/rpg-dev`, `/rpg-tech-lead`; fluxo MVP: `/rpg-fluxo-mvp`. Comandos em `.cursor/commands/`. Alternativa: `docs/prompts/`. Detalhes: `docs/FLUXO_MULTI_AGENT.md`.
+
+**Proibido:** regra de negócio em handlers Telegram; dependências ou mudança arquitetural sem aprovação (TECH_LEAD + ADR quando couber).
+
+**PRODUCT, ANALYST e personas de design/copy:** **não editam código** nem artefatos de implementação (`src/`, `prisma/` schema+migrations, `package.json`, testes `.ts`, etc.) — ver `AGENTS.md` §7.1.
