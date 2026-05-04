@@ -206,7 +206,7 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
           return;
         }
         const grid = await this.inventory.getBagSlotGrid(c.id);
-        await ctx.editMessageText(formatBagPage(grid, page), bagPageKeyboard(page));
+        await ctx.editMessageText(formatBagPage(grid, page), bagPageKeyboard(grid, page));
       } catch (e) {
         const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
         await ctx.reply(msg);
@@ -254,7 +254,7 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
         }
         await this.inventory.equipFromBag(c.id, itemId);
         const grid = await this.inventory.getBagSlotGrid(c.id);
-        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(0));
+        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(grid, 0));
       } catch (e) {
         const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
         await this.safeAnswerCbQuery(ctx, msg, { show_alert: true });
@@ -274,7 +274,7 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
         }
         await this.inventory.useConsumable(c.id, itemId);
         const grid = await this.inventory.getBagSlotGrid(c.id);
-        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(0));
+        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(grid, 0));
       } catch (e) {
         const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
         await this.safeAnswerCbQuery(ctx, msg, { show_alert: true });

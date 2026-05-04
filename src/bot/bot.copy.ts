@@ -94,7 +94,15 @@ export const MSG_INV_ROOT_TITLE =
 
 export const MSG_INV_BAG_TITLE = '📦 Bolsa\n' + `${SECTION_RULE}\n\n`;
 
+/** Bolsa: itens são escolhidos pelos botões abaixo (sem lista duplicada no texto). */
+export const MSG_INV_BAG_HINT =
+  'Toque no nome do item abaixo para ver detalhes, equipar ou usar.\n\n';
+
 export const MSG_INV_EQUIPPED_TITLE = '🛡 Equipado\n' + `${SECTION_RULE}\n\n`;
+
+/** Equipados: desequipar pelos botões com o nome da peça. */
+export const MSG_INV_EQUIPPED_HINT =
+  'Toque na peça abaixo para desequipar (volta à bolsa se houver espaço).\n\n';
 
 export const MSG_INV_EMPTY_SLOT = 'Este slot está vazio.';
 

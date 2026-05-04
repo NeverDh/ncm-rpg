@@ -29,7 +29,7 @@ Ponto de entrada da documentação do projeto. Atualizar quando novos módulos, 
 | Item | Status |
 |------|--------|
 | Código NestJS | `src/`: `bot/` (Telegraf), `modules/character/`, `modules/inventory/` (M2), `infra/prisma/`, `config/`, `health` |
-| Prisma / PostgreSQL | `schema.prisma` + **5** migrações (incl. `m2_inventory`); Prisma 5.x pinado |
+| Prisma / PostgreSQL | `schema.prisma` + **6** migrações (incl. `m2_inventory`, `m2_class_gear_catalog`); Prisma 5.x pinado |
 | Bot Telegraf | Polling em `BotService` (requer `BOT_TOKEN`) |
 | Docker Compose | `docker-compose.yml` (Postgres 16) |
 | M1 (personagem) | **Concluído** (2026-05-03); histórico `handoffs/M1/`; `docs/fluxos/m1-personagem.md`, ADR-009 |

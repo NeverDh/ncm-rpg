@@ -125,6 +125,17 @@ Formato sugerido por entrada:
   6. **Raridade (metadado, UI):** cinco níveis — **Comum**, **Incomum**, **Raro**, **Épico**, **Lendário** (valores internos alinhados a enum estável, ex. `COMMON` … `LEGENDARY`).
 - **Consequências:** Schema e seeds Prisma devem refletir 20 capacidade de bolsa, 9 slots, `ItemType` e `ItemRarity`, efeitos de consumível mínimos; `CoreAttrs` efetivo e bônus só em primários nos equipáveis **seguem ADR-013** ponto 2–3. Loja/moeda (M3) e uso em combate (M4) continuam fora do comportamento M2 de consumível.
 
+### ADR-015 — Catálogo de equipamento por classe e raridade (M2)
+
+- **Status:** aceita
+- **Contexto:** Dono pediu conjuntos temáticos por classe (arma + armadura completa + acessórios) e variantes por **cada raridade** (Comum → Lendário), sem fechar balanceamento numérico no charter.
+- **Decisão:**
+  1. **Fonte de verdade:** linhas em `item_definitions` inseridas por migração SQL (`gear_{barb|mage|assa}_{slot}_{rarity}`); `ON CONFLICT (code) DO NOTHING` para reaplicação segura.
+  2. **Cobertura:** para cada uma das **3 classes** (Bárbaro, Mago, Assassino): **1 arma** + **4 peças de armadura** (peitoral, elmo, bota, calça) + **4 acessórios** (anel 1, anel 2, colar, cinto) × **5 raridades** = **135** definições.
+  3. **Bônus:** apenas primários (ADR-013); distribuição **temática** por classe (FOR/VIT bárbaro; INT/RES mago; DES/VIG assassino) com incremento leve no atributo principal da peça por tier de raridade (0–4) — **valores provisórios** até playtest; rebalance não exige ADR novo se não mudar regra (só números em migração/seed).
+  4. **Equipar por jogador:** o jogo **não** restringe por `CharacterClass` no M2 (qualquer classe pode equipar qualquer peça); o nome indica **sugestão** de fantasy matching. Restrição por classe fica para produto futuro (M3+).
+- **Consequências:** Loot/loja referenciam `code` ou `id`; rebalance fino altera migração futura ou tabela auxiliar sem mudar contrato de slots.
+
 ---
 
 *Adicionar novos ADRs ao final; não reescrever histórico.*

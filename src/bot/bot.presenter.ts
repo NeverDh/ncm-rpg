@@ -15,7 +15,9 @@ import type { InventoryItemWithDef } from '../modules/inventory/inventory.servic
 import {
   MSG_HUB_CHOOSE_ACTION,
   MSG_HUB_FOOTER_LINES,
+  MSG_INV_BAG_HINT,
   MSG_INV_BAG_TITLE,
+  MSG_INV_EQUIPPED_HINT,
   MSG_INV_EQUIPPED_TITLE,
   MSG_INV_OUT_OF_COMBAT_ONLY,
   MSG_INV_ROOT_TITLE,
@@ -354,6 +356,17 @@ export function formatDraftConfirm(c: Character) {
 
 const BAG_PAGE_SIZE = 5;
 
+/** Limite de caracteres do texto de botão inline no Telegram. */
+const TELEGRAM_CALLBACK_BUTTON_TEXT_MAX = 64;
+
+function truncateTelegramButtonLabel(label: string, maxLen = TELEGRAM_CALLBACK_BUTTON_TEXT_MAX): string {
+  if (label.length <= maxLen) {
+    return label;
+  }
+  const ell = '…';
+  return label.slice(0, Math.max(1, maxLen - ell.length)) + ell;
+}
+
 export function formatInventoryRoot(bagUsed: number, equippedCount: number): string {
   return (
     MSG_INV_ROOT_TITLE +
@@ -378,22 +391,18 @@ export function formatBagPage(
   const p = Math.min(Math.max(0, page), Math.max(0, totalPages - 1));
   const start = p * BAG_PAGE_SIZE;
   const slice = grid.slice(start, start + BAG_PAGE_SIZE);
-  const lines = slice.map(({ index, item }) => {
-    const num = String(index + 1).padStart(2, '0');
-    if (!item) {
-      return `${num} · — vazio —`;
-    }
-    const st = item.stackCount > 1 ? ` ×${item.stackCount}` : '';
-    return `${num} · ${ITEM_TYPE_LABEL[item.itemDefinition.itemType]} · ${item.itemDefinition.name}${st}`;
-  });
+  const filled = slice.filter((c) => c.item).length;
   return (
     MSG_INV_BAG_TITLE +
-    `Página ${p + 1}/${Math.max(1, totalPages)}\n\n` +
-    lines.join('\n')
+    MSG_INV_BAG_HINT +
+    `Página ${p + 1}/${Math.max(1, totalPages)} · nesta página: ${filled}/${slice.length} ocupados`
   );
 }
 
-export function bagPageKeyboard(page: number) {
+export function bagPageKeyboard(
+  grid: { index: number; item: InventoryItemWithDef | null }[],
+  page: number,
+) {
   const totalPages = Math.ceil(BAG_SLOT_COUNT / BAG_PAGE_SIZE);
   const p = Math.min(Math.max(0, page), Math.max(0, totalPages - 1));
   const start = p * BAG_PAGE_SIZE;
@@ -403,12 +412,17 @@ export function bagPageKeyboard(page: number) {
     if (slotIndex >= BAG_SLOT_COUNT) {
       break;
     }
-    rows.push([
-      Markup.button.callback(
-        `Slot ${String(slotIndex + 1).padStart(2, '0')}`,
-        `inv:slot:${slotIndex}:${p}`,
-      ),
-    ]);
+    const cell = grid[slotIndex];
+    const item = cell?.item ?? null;
+    const num = String(slotIndex + 1).padStart(2, '0');
+    let label: string;
+    if (!item) {
+      label = `${num} · vazio`;
+    } else {
+      const st = item.stackCount > 1 ? ` ×${item.stackCount}` : '';
+      label = truncateTelegramButtonLabel(`${num} · ${item.itemDefinition.name}${st}`);
+    }
+    rows.push([Markup.button.callback(label, `inv:slot:${slotIndex}:${p}`)]);
   }
   const nav: ReturnType<typeof Markup.button.callback>[] = [];
   if (p > 0) {
@@ -442,20 +456,21 @@ export function formatEquippedList(items: InventoryItemWithDef[]): string {
   if (!items.length) {
     return MSG_INV_EQUIPPED_TITLE + 'Nada equipado.';
   }
-  const lines = items.map(
-    (it) =>
-      `${EQUIPMENT_SLOT_LABEL[it.equippedSlot!]} · ${it.itemDefinition.name} (${ITEM_RARITY_LABEL[it.itemDefinition.rarity]})`,
+  return (
+    MSG_INV_EQUIPPED_TITLE +
+    MSG_INV_EQUIPPED_HINT +
+    `Peças equipadas: ${items.length}/9`
   );
-  return MSG_INV_EQUIPPED_TITLE + lines.join('\n');
 }
 
 export function equippedKeyboard(items: InventoryItemWithDef[]) {
-  const rows = items.map((it) => [
-    Markup.button.callback(
-      `⎋ ${EQUIPMENT_SLOT_LABEL[it.equippedSlot!]}`,
-      `inv:uneq:${it.equippedSlot}`,
-    ),
-  ]);
+  const rows = items.map((it) => {
+    const slot = EQUIPMENT_SLOT_LABEL[it.equippedSlot!];
+    const name = it.itemDefinition.name;
+    const ra = ITEM_RARITY_LABEL[it.itemDefinition.rarity];
+    const label = truncateTelegramButtonLabel(`⎋ ${slot} · ${name} (${ra})`);
+    return [Markup.button.callback(label, `inv:uneq:${it.equippedSlot}`)];
+  });
   rows.push([
     Markup.button.callback('« Inventário', 'inv:root'),
     Markup.button.callback('« Menu', 'char:hub'),

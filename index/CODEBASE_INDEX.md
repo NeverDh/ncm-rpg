@@ -95,6 +95,7 @@ prisma/
     20260502140000_mvp_rebalance_no_per/migration.sql
     20260502180000_creation_zero_class_racial_layers/migration.sql
     20260503120000_m2_inventory/migration.sql
+    20260504140000_m2_class_gear_catalog/migration.sql
     migration_lock.toml
 ```
 
@@ -158,6 +159,7 @@ prisma/
 ./prisma/migrations/20260502140000_mvp_rebalance_no_per/migration.sql
 ./prisma/migrations/20260502180000_creation_zero_class_racial_layers/migration.sql
 ./prisma/migrations/20260503120000_m2_inventory/migration.sql
+./prisma/migrations/20260504140000_m2_class_gear_catalog/migration.sql
 ./prisma/migrations/migration_lock.toml
 ./README.md
 ./src/app.module.ts

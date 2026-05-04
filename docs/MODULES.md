@@ -91,6 +91,11 @@ Metadado de exibição / balanceamento futuro; cinco níveis:
 4. Épico  
 5. Lendário  
 
+### Catálogo de equipamento (M2)
+
+- Conjuntos **temáticos** por classe (Bárbaro, Mago, Assassino): **arma** + **quatro peças de armadura** + **quatro acessórios** (anéis, colar, cinto), cada qual em **cinco raridades** — ver migração `20260504140000_m2_class_gear_catalog` e **ADR-015**.
+- Convenção de `code`: `gear_{barb|mage|assa}_{slot}_{rarity}` (ex.: `gear_mage_weapon_rare`). Nomes exibem classe e raridade; **o jogo não bloqueia equipar por classe** no M2 (sugestão de fantasy apenas).
+
 ### Módulo e fronteiras
 
 - `inventory/` referencia personagem por **`characterId`**; sem duplicar criação de personagem (**ADR-014** + regras de fronteira abaixo).
