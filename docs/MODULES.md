@@ -46,7 +46,57 @@ Pastas de apoio: `docs/`, `tests/` (conforme charter do projeto).
 
 ## M2 — Inventário e itens
 
-Inventário, equipamentos, itens, consumíveis, raridade, slots.
+**Objetivo:** o jogador gere **uma bolsa** por personagem, **equipa e desequipa** nas peças previstas, **usa consumíveis** com efeitos simples **fora de combate**, e a **ficha** reflete equipamento nos primários e, em cascata, nos secundários derivados (**ADR-011**, **ADR-013** ponto 2–3, **ADR-014**).
+
+### Bolsa (M2)
+
+- **Uma bolsa global** por personagem (visão única; sem sub-bolsas por categoria).
+- **Sem filtro** por tipo na interface M2.
+- **20 slots fixos** de capacidade na bolsa em M2 (slot vazio vs. stack/ocupação — detalhe de implementação: uma linha por “célula” ou capacidade 20; DEV alinha ao schema).
+
+### Equipamentos (M2)
+
+- **Equipar / desequipar:** somente pelo **menu do inventário** (sem fluxo paralelo obrigatório na ficha no M2).
+- **Slots mínimos:**
+
+| Grupo | Slots |
+|--------|--------|
+| Arma | 1 × Arma |
+| Armadura | Peitoral · Elmo · Bota · Calça |
+| Acessórios | 2 × Anel · 1 × Colar · 1 × Cinto |
+
+- **Bônus de equipamento:** apenas modificadores **flat nos 6 primários** na leitura da ficha; ver **ADR-013** (não persistir primários inflados; `CoreAttrs` efetivo).
+
+### Itens — tipos desde o início (M2)
+
+- **Arma**
+- **Armadura**
+- **Consumível**
+- **Material**
+- **Item de missão**
+
+### Consumíveis (M2)
+
+- **Uso permitido** em M2.
+- **Efeitos simples apenas:** cura de **vida** (HP) e recuperação de **mana**.
+- **Apenas fora de combate** (em M2 não há combate; a regra vincula-se ao estado futuro M4 — guard no domínio).
+
+### Raridade (M2)
+
+Metadado de exibição / balanceamento futuro; cinco níveis:
+
+1. Comum  
+2. Incomum  
+3. Raro  
+4. Épico  
+5. Lendário  
+
+### Módulo e fronteiras
+
+- `inventory/` referencia personagem por **`characterId`**; sem duplicar criação de personagem (**ADR-014** + regras de fronteira abaixo).
+- **Sorte** por item: continua fora da curva de bônus diretos em secundários em M2 (**ADR-013**); `luck` derivado como hoje até loot/economia documentados (M3+).
+
+**Fora do escopo M2:** loja, moedas, mercado (M3); **uso de item em combate** (M4); buffs de consumível além de cura HP / recuperação mana; skills além do placeholder M1.
 
 ## M3 — Economia
 

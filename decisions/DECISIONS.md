@@ -102,6 +102,29 @@ Formato sugerido por entrada:
 - **Decisão:** `ATTR_CREATION_BASE = 0`. Pacote fixo de **10 pontos** nos 6 primários por `CharacterClass` (`class-modifiers.ts`, soma validada em carga). `setClass` persiste primários pós-classe. `setRace` aplica `applyRacial` sobre esses valores (ADR-010 mantido: **12 pontos** líquidos por raça). `CLASS_BASES` hp/mana/stamina = **0** para todas as classes; `deriveHpManaStamina` usa só fórmula + parcela zero. **Energia** segue **20** na finalização. UI: passo classe só atributos de classe; passo raça revela recursos + secundários derivados.
 - **Consequências:** Personagens antigos já finalizados não são migrados automaticamente para a nova curva; playtest obrigatório; rebalance fino de `class-modifiers` e fórmulas de recurso se combates M4 exigirem piso de HP/mana.
 
+### ADR-013 — M2 inventário: escopo mínimo e camada de bônus de equipamento (secundários)
+
+- **Status:** aceita (**UI de bolsa/slots e consumíveis** supersedidos por **ADR-014**; pontos 2–3 sobre bônus só em primários e `CoreAttrs` efetivo **mantêm-se**.)
+- **Contexto:** ADR-011 deixou “modificadores de equipamento” a fechar em M2; ANALYST apontou risco de scope creep (consumíveis com efeito, loja) e de dessincronia se primários persistidos forem alterados diretamente por equipar. Marco ativo **M2** (`index/PROJECT_PHASE.md`).
+- **Decisão:**
+  1. **Escopo M2:** bolsa (itens possuídos), **equipar/desequipar** em **quatro slots fixos:** Arma, Armadura, Amuleto, Anel. Catálogo de itens de **sistema** (definições estáticas + instâncias na bolsa). **Raridade** como metadado (ex.: UI/copy). **Sem** loja/moeda (M3). **Sem** ação “usar consumível” com efeito numérico em M2 (tipo pode existir; efeito em marco futuro).
+  2. **Bônus de equipamento em M2:** apenas **soma flat nos 6 atributos primários** definida por peça equipada. **Não** introduzir em M2 bônus diretos em scores secundários (ex.: +crit) nem em **Sorte**; `luck` permanece derivado só dos primários (0 na curva atual) até loot/economia em documento futuro.
+  3. **Onde a soma acontece:** construir **`CoreAttrs` efetivo** = primários **persistidos** no personagem **+** soma dos bônus primários das peças equipadas; **`deriveSecondaryStats`** e **`deriveHpManaStamina`** operam sobre esse efetivo **no momento da leitura/apresentação** (e em qualquer caso de uso que precise da ficha “completa”). **Não** persistir primários inflados por equipamento no registo do personagem.
+- **Consequências:** Um único ponto de composição (ex.: serviço de aplicação ou API do `character` que consulta `inventory`) evita duplicar lógica no `bot.presenter`; DEV implementa `inventory` + contrato claro para “ficha resolvida”. Novos tipos de modificador (secundários diretos, Sorte por item) exigem revisão de ADR ou ADR filho após M3/M4.
+
+### ADR-014 — M2 inventário: bolsa 20 slots, peças de equipamento, tipos de item, consumíveis fora de combate
+
+- **Status:** aceita
+- **Contexto:** Dono/PRODUCT refinou M2 após ADR-013: uma bolsa por personagem com capacidade fixa, mais slots de equipamento (armadura em partes + acessórios), tipos de item desde o início, consumíveis usáveis com efeitos simples fora de combate, e escala de raridade em cinco níveis.
+- **Decisão:**
+  1. **Bolsa:** uma **única bolsa** por personagem (visão global única, sem abas de categorias); **20 slots fixos** em M2; **sem filtro** de tipo na UI M2 (lista única / paginação no Telegram conforme UX).
+  2. **Equipar / desequipar:** **apenas** a partir do **menu do inventário** (não atalhos paralelos na ficha no M2, salvo PRODUCT reabrir).
+  3. **Slots de equipamento (mínimo M2):** **Arma**; **armadura** em quatro peças — **Peitoral**, **Elmo**, **Bota**, **Calça**; **acessórios** — **dois anéis**, **um colar**, **um cinto** (total **9** slots equipáveis). Apenas itens cujo tipo e sub-regra de slot coincidam podem ocupar o slot (ex.: arma só em Arma).
+  4. **Tipos de item (catálogo / enum desde M2):** **Arma**, **Armadura**, **Consumível**, **Material**, **Item de missão** (nomes canónicos em schema/copy alinhados a estes cinco).
+  5. **Consumíveis em M2:** podem ser **usados**; efeitos permitidos: apenas **cura de vida** e **recuperação de mana** (valores flat ou documentados no seed; sem buffs complexos). **Uso apenas fora de combate** — em M2 não há estado de combate; a regra é **proibição explícita de uso em combate** quando M4 introduzir combate (guard no domínio). Até lá, `inventory`/character trata como “sempre fora de combate”.
+  6. **Raridade (metadado, UI):** cinco níveis — **Comum**, **Incomum**, **Raro**, **Épico**, **Lendário** (valores internos alinhados a enum estável, ex. `COMMON` … `LEGENDARY`).
+- **Consequências:** Schema e seeds Prisma devem refletir 20 capacidade de bolsa, 9 slots, `ItemType` e `ItemRarity`, efeitos de consumível mínimos; `CoreAttrs` efetivo e bônus só em primários nos equipáveis **seguem ADR-013** ponto 2–3. Loja/moeda (M3) e uso em combate (M4) continuam fora do comportamento M2 de consumível.
+
 ---
 
 *Adicionar novos ADRs ao final; não reescrever histórico.*

@@ -31,6 +31,34 @@ enum CreationStep {
   DONE
 }
 
+enum ItemType {
+  WEAPON
+  ARMOR
+  CONSUMABLE
+  MATERIAL
+  QUEST
+}
+
+enum ItemRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum EquipmentSlot {
+  WEAPON
+  CHEST
+  HELM
+  BOOTS
+  PANTS
+  RING_1
+  RING_2
+  NECKLACE
+  BELT
+}
+
 model TelegramAccount {
   id             String      @id @default(uuid())
   telegramUserId BigInt      @unique @map("telegram_user_id")
@@ -69,6 +97,54 @@ model Character {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  inventoryItems InventoryItem[]
+
   @@index([accountId, isComplete])
   @@map("characters")
+}
+
+model ItemDefinition {
+  id     String @id @default(uuid())
+  code   String @unique
+  name   String
+  itemType ItemType @map("item_type")
+  rarity ItemRarity @default(COMMON)
+
+  wearSlot EquipmentSlot? @map("wear_slot")
+
+  bonusStrength     Int @default(0) @map("bonus_strength")
+  bonusDexterity    Int @default(0) @map("bonus_dexterity")
+  bonusIntelligence Int @default(0) @map("bonus_intelligence")
+  bonusVitality     Int @default(0) @map("bonus_vitality")
+  bonusResilience   Int @default(0) @map("bonus_resilience")
+  bonusVigor        Int @default(0) @map("bonus_vigor")
+
+  effectHealHp      Int @default(0) @map("effect_heal_hp")
+  effectRestoreMana Int @default(0) @map("effect_restore_mana")
+
+  inventoryItems InventoryItem[]
+
+  @@map("item_definitions")
+}
+
+model InventoryItem {
+  id String @id @default(uuid())
+
+  characterId String    @map("character_id")
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  itemDefinitionId String         @map("item_definition_id")
+  itemDefinition   ItemDefinition @relation(fields: [itemDefinitionId], references: [id], onDelete: Restrict)
+
+  stackCount Int @default(1) @map("stack_count")
+
+  /// Índice 0–19 na bolsa; nulo quando equipado.
+  bagSlotIndex Int? @map("bag_slot_index")
+
+  equippedSlot EquipmentSlot? @map("equipped_slot")
+
+  @@index([characterId])
+  @@index([characterId, bagSlotIndex])
+  @@index([characterId, equippedSlot])
+  @@map("inventory_items")
 }

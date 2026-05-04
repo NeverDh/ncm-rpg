@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CharacterClass, CreationStep, Race } from '@prisma/client';
 import { PrismaService } from '../../infra/prisma/prisma.service';
+import { InventoryService } from '../inventory/inventory.service';
 import { ATTR_CREATION_BASE, ATTR_POINTS_AT_CREATION, FIXED_ENERGY_MVP } from './character.constants';
 import { applyClass } from './class-modifiers';
 import { applyRacial, deriveHpManaStamina, type CoreAttrs } from './character.derivation';
 
 @Injectable()
 export class CharacterService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly inventory: InventoryService,
+  ) {}
 
   async ensureAccount(telegramUserId: bigint, username?: string) {
     return this.prisma.telegramAccount.upsert({
@@ -193,7 +197,7 @@ export class CharacterService {
     };
     const { hp, mana, stamina } = deriveHpManaStamina(draft.characterClass, attrs);
 
-    return this.prisma.character.update({
+    const done = await this.prisma.character.update({
       where: { id: draft.id },
       data: {
         hp,
@@ -204,6 +208,8 @@ export class CharacterService {
         creationStep: CreationStep.DONE,
       },
     });
+    await this.inventory.onCharacterCreated(done.id);
+    return done;
   }
 
   private async requireDraft(accountId: string, expected: CreationStep) {

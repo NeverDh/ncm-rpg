@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { CreationStep } from '@prisma/client';
 import { Telegraf } from 'telegraf';
 import { CharacterService } from '../modules/character/character.service';
+import { InventoryService } from '../modules/inventory/inventory.service';
 import {
   CLASS_BLURB,
   MSG_CHARACTER_CREATED_PREFIX,
@@ -34,13 +35,27 @@ import {
   formatAfterClassChosenSummary,
   formatDraftConfirm,
   formatPostRaceReveal,
-  formatSheet,
+  bagPageKeyboard,
+  characterHubKeyboard,
+  equippedKeyboard,
+  formatBagPage,
+  formatCharacterHub,
+  formatEquippedList,
+  formatInventoryRoot,
+  formatItemDetailFromBag,
+  formatProfile,
+  formatSlotDetail,
   formatWizardClassIntro,
+  inventoryRootKeyboard,
+  itemDetailKeyboard,
   mainMenuKeyboard,
+  profileKeyboard,
   namePromptKeyboard,
   parseClass,
+  parseEquipmentSlot,
   parseRace,
   raceKeyboard,
+  slotEmptyKeyboard,
 } from './bot.presenter';
 
 @Injectable()
@@ -51,6 +66,7 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
   constructor(
     private readonly config: ConfigService,
     private readonly characters: CharacterService,
+    private readonly inventory: InventoryService,
   ) {}
 
   async onApplicationBootstrap() {
@@ -84,20 +100,210 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
           await ctx.reply(MSG_PERSONAGEM_NO_CHAR);
           return;
         }
-        await ctx.reply(formatSheet(c));
+        await this.inventory.onCharacterCreated(c.id);
+        const eff = await this.inventory.resolveEffectiveCoreAttrs(c);
+        await ctx.reply(formatCharacterHub(c, eff), characterHubKeyboard());
       } catch (e) {
         const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
         await ctx.reply(msg);
       }
     });
 
-    bot.action('menu:main', async (ctx) => {
+    bot.action('char:hub', async (ctx) => {
       await ctx.answerCbQuery();
-      const uid = BigInt(ctx.from!.id);
-      const account = await this.characters.ensureAccount(uid, ctx.from?.username);
-      const draft = await this.characters.getDraft(account.id);
-      const complete = await this.characters.getCompletedCharacter(account.id);
-      await ctx.editMessageText(MSG_MENU, mainMenuKeyboard(!!draft, !!complete));
+      try {
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const draft = await this.characters.getDraft(account.id);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.editMessageText(MSG_MENU, mainMenuKeyboard(!!draft, false));
+          return;
+        }
+        await this.inventory.onCharacterCreated(c.id);
+        const eff = await this.inventory.resolveEffectiveCoreAttrs(c);
+        await ctx.editMessageText(formatCharacterHub(c, eff), characterHubKeyboard());
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action('profile:show', async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        const eff = await this.inventory.resolveEffectiveCoreAttrs(c);
+        await ctx.editMessageText(formatProfile(c, eff), profileKeyboard());
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action(/^hub:stub:.+$/, async (ctx) => {
+      await this.safeAnswerCbQuery(ctx, 'Em breve neste marco ou em M3/M4.', { show_alert: true });
+    });
+
+    bot.action('inv:root', async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        await this.inventory.onCharacterCreated(c.id);
+        const grid = await this.inventory.getBagSlotGrid(c.id);
+        const bagUsed = grid.filter((g) => g.item).length;
+        const equipped = await this.inventory.listEquipped(c.id);
+        await ctx.editMessageText(
+          formatInventoryRoot(bagUsed, equipped.length),
+          inventoryRootKeyboard(),
+        );
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action('inv:equipped', async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        const equipped = await this.inventory.listEquipped(c.id);
+        const kb = equipped.length ? equippedKeyboard(equipped) : inventoryRootKeyboard();
+        await ctx.editMessageText(formatEquippedList(equipped), kb);
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action(/^inv:bag:(\d+)$/, async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const page = parseInt(ctx.match[1], 10) || 0;
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        const grid = await this.inventory.getBagSlotGrid(c.id);
+        await ctx.editMessageText(formatBagPage(grid, page), bagPageKeyboard(page));
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action(/^inv:slot:(\d+):(\d+)$/, async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const slotIndex = parseInt(ctx.match[1], 10);
+        const bagPage = parseInt(ctx.match[2], 10) || 0;
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        const grid = await this.inventory.getBagSlotGrid(c.id);
+        const cell = grid.find((g) => g.index === slotIndex);
+        if (!cell?.item) {
+          await ctx.editMessageText(formatSlotDetail(slotIndex, null), slotEmptyKeyboard(bagPage));
+          return;
+        }
+        await ctx.editMessageText(
+          formatItemDetailFromBag(cell.item),
+          itemDetailKeyboard(cell.item, bagPage),
+        );
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await ctx.reply(msg);
+      }
+    });
+
+    bot.action(/^inv:eq:([0-9a-f-]{36})$/, async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const itemId = ctx.match[1];
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        await this.inventory.equipFromBag(c.id, itemId);
+        const grid = await this.inventory.getBagSlotGrid(c.id);
+        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(0));
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await this.safeAnswerCbQuery(ctx, msg, { show_alert: true });
+      }
+    });
+
+    bot.action(/^inv:use:([0-9a-f-]{36})$/, async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const itemId = ctx.match[1];
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        await this.inventory.useConsumable(c.id, itemId);
+        const grid = await this.inventory.getBagSlotGrid(c.id);
+        await ctx.editMessageText(formatBagPage(grid, 0), bagPageKeyboard(0));
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await this.safeAnswerCbQuery(ctx, msg, { show_alert: true });
+      }
+    });
+
+    bot.action(/^inv:uneq:(.+)$/, async (ctx) => {
+      await ctx.answerCbQuery();
+      try {
+        const slot = parseEquipmentSlot(ctx.match[1]);
+        if (!slot) {
+          await ctx.reply(MSG_INVALID_OPTION);
+          return;
+        }
+        const uid = BigInt(ctx.from!.id);
+        const account = await this.characters.ensureAccount(uid, ctx.from?.username);
+        const c = await this.characters.getCompletedCharacter(account.id);
+        if (!c) {
+          await ctx.reply(MSG_SHEET_NO_CHAR);
+          return;
+        }
+        await this.inventory.unequip(c.id, slot);
+        const equipped = await this.inventory.listEquipped(c.id);
+        const kb = equipped.length ? equippedKeyboard(equipped) : inventoryRootKeyboard();
+        await ctx.editMessageText(formatEquippedList(equipped), kb);
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
+        await this.safeAnswerCbQuery(ctx, msg, { show_alert: true });
+      }
     });
 
     bot.action('wizard:create', async (ctx) => {
@@ -231,8 +437,9 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
         const account = await this.characters.ensureAccount(uid, ctx.from?.username);
         const done = await this.characters.finalize(account.id, true);
         await this.safeAnswerCbQuery(ctx);
-        const text = MSG_CHARACTER_CREATED_PREFIX + formatSheet(done);
-        const kb = mainMenuKeyboard(false, true);
+        const eff = await this.inventory.resolveEffectiveCoreAttrs(done);
+        const text = MSG_CHARACTER_CREATED_PREFIX + formatCharacterHub(done, eff);
+        const kb = characterHubKeyboard();
         try {
           await ctx.editMessageText(text, kb);
         } catch (editErr) {
@@ -280,7 +487,15 @@ export class BotService implements OnApplicationBootstrap, OnApplicationShutdown
           await ctx.reply(MSG_SHEET_NO_CHAR);
           return;
         }
-        await ctx.reply(formatSheet(c));
+        await this.inventory.onCharacterCreated(c.id);
+        const eff = await this.inventory.resolveEffectiveCoreAttrs(c);
+        const text = formatCharacterHub(c, eff);
+        const kb = characterHubKeyboard();
+        try {
+          await ctx.editMessageText(text, kb);
+        } catch {
+          await ctx.reply(text, kb);
+        }
       } catch (e) {
         const msg = e instanceof Error ? e.message : MSG_ERROR_GENERIC;
         await ctx.reply(msg);

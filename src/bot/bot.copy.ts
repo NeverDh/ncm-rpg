@@ -77,3 +77,28 @@ export const MSG_ERROR_START = 'Erro ao iniciar.';
 
 export const MSG_CHARACTER_CREATED_PREFIX =
   '🎉 Herói criado\n' + `${SECTION_RULE}\n\n`;
+
+export const MSG_SHEET_INCLUDES_EQUIPMENT =
+  '📎 Os valores acima já somam equipamento (primários → secundários).';
+
+/** Hub do herói (estilo `examples/texto-exemplo.txt`). */
+export const MSG_HUB_CHOOSE_ACTION = 'Escolha uma ação:';
+
+export const MSG_HUB_FOOTER_LINES =
+  '✨ Progresso: veja nível acima — pontos no level up em breve.\n' +
+  '💰 Economia e lojas: em breve (M3).\n' +
+  '🎯 Skills: em breve.';
+
+export const MSG_INV_ROOT_TITLE =
+  '🎒 Inventário\n' + `${SECTION_RULE}\n\n` + 'Bolsa fixa 20 slots · sem filtro. Equipar só por aqui.\n\n';
+
+export const MSG_INV_BAG_TITLE = '📦 Bolsa\n' + `${SECTION_RULE}\n\n`;
+
+export const MSG_INV_EQUIPPED_TITLE = '🛡 Equipado\n' + `${SECTION_RULE}\n\n`;
+
+export const MSG_INV_EMPTY_SLOT = 'Este slot está vazio.';
+
+export const MSG_INV_ITEM_NOT_FOUND = 'Item não encontrado. Volte à bolsa.';
+
+export const MSG_INV_OUT_OF_COMBAT_ONLY =
+  'Consumível: só fora de combate (M2 não tem combate; em M4 o uso em luta será bloqueado).';

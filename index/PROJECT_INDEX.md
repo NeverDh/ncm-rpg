@@ -28,12 +28,12 @@ Ponto de entrada da documentação do projeto. Atualizar quando novos módulos, 
 
 | Item | Status |
 |------|--------|
-| Código NestJS | `src/`: `bot/` (Telegraf), `modules/character/`, `infra/prisma/`, `config/`, `health` |
-| Prisma / PostgreSQL | `schema.prisma` + **4** migrações (`init`, `energy_vigor_attribute`, `mvp_rebalance_no_per`, `creation_zero_class_racial_layers`); Prisma 5.x pinado |
+| Código NestJS | `src/`: `bot/` (Telegraf), `modules/character/`, `modules/inventory/` (M2), `infra/prisma/`, `config/`, `health` |
+| Prisma / PostgreSQL | `schema.prisma` + **5** migrações (incl. `m2_inventory`); Prisma 5.x pinado |
 | Bot Telegraf | Polling em `BotService` (requer `BOT_TOKEN`) |
 | Docker Compose | `docker-compose.yml` (Postgres 16) |
 | M1 (personagem) | **Concluído** (2026-05-03); histórico `handoffs/M1/`; `docs/fluxos/m1-personagem.md`, ADR-009 |
-| M2 (inventário) | **Marco ativo** — ver `docs/MODULES.md` M2 e `index/PROJECT_PHASE.md`; handoffs em `handoffs/M2/` |
+| M2 (inventário) | **Marco ativo** — charter M2 + **ADR-013** / **ADR-014** em `decisions/DECISIONS.md`; detalhe em `docs/MODULES.md` M2; handoffs em `handoffs/M2/` |
 
 ## Convenções
 

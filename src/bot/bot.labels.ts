@@ -1,4 +1,4 @@
-import { CharacterClass, Race } from '@prisma/client';
+import { CharacterClass, EquipmentSlot, ItemRarity, ItemType, Race } from '@prisma/client';
 import type { SecondaryStats } from '../modules/character/character.derivation';
 
 export const RACE_LABEL: Record<Race, string> = {
@@ -48,4 +48,32 @@ export const SECONDARY_LABEL: { [K in keyof SecondaryStats]: string } = {
   physicalPenetration: 'Penetração física',
   magicalPenetration: 'Penetração mágica',
   luck: 'Sorte',
+};
+
+export const EQUIPMENT_SLOT_LABEL: Record<EquipmentSlot, string> = {
+  WEAPON: 'Arma',
+  CHEST: 'Peitoral',
+  HELM: 'Elmo',
+  BOOTS: 'Bota',
+  PANTS: 'Calça',
+  RING_1: 'Anel 1',
+  RING_2: 'Anel 2',
+  NECKLACE: 'Colar',
+  BELT: 'Cinto',
+};
+
+export const ITEM_RARITY_LABEL: Record<ItemRarity, string> = {
+  COMMON: 'Comum',
+  UNCOMMON: 'Incomum',
+  RARE: 'Raro',
+  EPIC: 'Épico',
+  LEGENDARY: 'Lendário',
+};
+
+export const ITEM_TYPE_LABEL: Record<ItemType, string> = {
+  WEAPON: 'Arma',
+  ARMOR: 'Armadura',
+  CONSUMABLE: 'Consumível',
+  MATERIAL: 'Material',
+  QUEST: 'Missão',
 };

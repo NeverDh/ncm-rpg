@@ -12,6 +12,47 @@ export type CoreAttrs = {
   vigorAttribute: number;
 };
 
+/** Soma de bônus de equipamento (primários) sobre a base persistida — ADR-013. */
+export function addCoreAttrs(a: CoreAttrs, b: CoreAttrs): CoreAttrs {
+  return {
+    strength: a.strength + b.strength,
+    dexterity: a.dexterity + b.dexterity,
+    intelligence: a.intelligence + b.intelligence,
+    vitality: a.vitality + b.vitality,
+    resilience: a.resilience + b.resilience,
+    vigorAttribute: a.vigorAttribute + b.vigorAttribute,
+  };
+}
+
+export function zeroCoreAttrs(): CoreAttrs {
+  return {
+    strength: 0,
+    dexterity: 0,
+    intelligence: 0,
+    vitality: 0,
+    resilience: 0,
+    vigorAttribute: 0,
+  };
+}
+
+export function toCoreAttrsFromCharacter(c: {
+  strength: number;
+  dexterity: number;
+  intelligence: number;
+  vitality: number;
+  resilience: number;
+  vigorAttribute: number;
+}): CoreAttrs {
+  return {
+    strength: c.strength,
+    dexterity: c.dexterity,
+    intelligence: c.intelligence,
+    vitality: c.vitality,
+    resilience: c.resilience,
+    vigorAttribute: c.vigorAttribute,
+  };
+}
+
 export function applyRacial(race: Race, base: CoreAttrs): CoreAttrs {
   const r: RacialModifier = RACIAL_MODIFIERS[race];
   return {

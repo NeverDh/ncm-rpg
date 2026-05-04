@@ -31,7 +31,7 @@ Arquitetura: **monólito modular**, com limites claros para eventual separação
 
 ## Pastas conceituais
 
-- `modules/*` — bounded contexts por feature (character, inventory, …)
+- `modules/*` — bounded contexts por feature (**character** M1; **inventory** M2 — ver `docs/MODULES.md`, **ADR-013** e **ADR-014** para bolsa, slots, consumíveis e composição da ficha)
 - `shared` — utilitários transversais sem regras de negócio pesadas
 - `core` — building blocks da aplicação (ex.: exceções de domínio, interfaces)
 - `infra` — adaptadores (Prisma, Redis futuro, filas)

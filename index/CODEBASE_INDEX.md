@@ -73,10 +73,15 @@ src/
       character.module.ts
       character.service.ts      # Domínio personagem; finalização criação (sem RN no bot)
       character.constants.ts    # Orçamentos M1 (classe/raça), energia fixa, etc.
-      character.derivation.ts   # Secundários derivados + HP/Mana/Stamina (puro)
+      character.derivation.ts   # Secundários derivados + HP/Mana/Stamina; addCoreAttrs (M2)
+      character.derivation.spec.ts
       class-bases.ts
       class-modifiers.ts        # Pacote +10 pts por classe (ADR-012)
       racial-modifiers.ts       # +12 pts líquidos por raça (ADR-010)
+    inventory/
+      inventory.module.ts
+      inventory.constants.ts    # Bolsa 20 slots (M2)
+      inventory.service.ts      # Bolsa, equipar, consumível fora de combate (M2)
 ```
 
 ## Prisma
@@ -89,6 +94,7 @@ prisma/
     20260502120000_energy_vigor_attribute/migration.sql
     20260502140000_mvp_rebalance_no_per/migration.sql
     20260502180000_creation_zero_class_racial_layers/migration.sql
+    20260503120000_m2_inventory/migration.sql
     migration_lock.toml
 ```
 
@@ -151,6 +157,7 @@ prisma/
 ./prisma/migrations/20260502120000_energy_vigor_attribute/migration.sql
 ./prisma/migrations/20260502140000_mvp_rebalance_no_per/migration.sql
 ./prisma/migrations/20260502180000_creation_zero_class_racial_layers/migration.sql
+./prisma/migrations/20260503120000_m2_inventory/migration.sql
 ./prisma/migrations/migration_lock.toml
 ./README.md
 ./src/app.module.ts
@@ -166,8 +173,12 @@ prisma/
 ./src/main.ts
 ./src/modules/character/character.constants.ts
 ./src/modules/character/character.derivation.ts
+./src/modules/character/character.derivation.spec.ts
 ./src/modules/character/character.module.ts
 ./src/modules/character/character.service.ts
+./src/modules/inventory/inventory.constants.ts
+./src/modules/inventory/inventory.module.ts
+./src/modules/inventory/inventory.service.ts
 ./src/modules/character/class-bases.ts
 ./src/modules/character/class-modifiers.ts
 ./src/modules/character/racial-modifiers.ts
